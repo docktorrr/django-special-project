@@ -1,0 +1,39 @@
+{% extends "inner.html" %}
+
+{% load thumbnail %}
+
+{% block meta %}
+    <meta property="og:url" content="http://doliva.wmj.ru{% url contest_work work.id %}" />
+    {% if contest.id == 1 %}
+        <meta property="og:title" content="Мой комментарий в конкурсе D'Oliva" />
+        <meta property="og:description" content="{{ work.text|safe|truncatewords:20 }}" />
+        <meta property="og:image" content="http://doliva.wmj.ru/public/static/images/project-image.jpg" />
+    {% endif %}
+    {% if contest.id == 2 %}
+        <meta property="og:title" content="{{ work.name }} в конкурсе D'Oliva" />
+        <meta property="og:description" content="Проголосуйте за мой рецепт на конкурсе D'Oliva!" />
+        {% thumbnail work.image "200x200" crop="center" as im %}
+        <meta property="og:image" content="http://doliva.wmj.ru{{im.url}}" />
+        {% endthumbnail %}
+    {% endif %}
+    {% if contest.id == 3 %}
+        <meta property="og:title" content="{{ work.name }} в конкурсе D'Oliva" />
+        <meta property="og:description" content="Проголосуйте за моё selfi на конкурсе D'Oliva!" />
+        {% thumbnail work.image "200x200" crop="center" as im %}
+        <meta property="og:image" content="http://doliva.wmj.ru{{im.url}}" />
+        {% endthumbnail %}
+    {% endif %}
+{% endblock %}
+
+{% block class %}{{ block.super }}{% if contest.id == 2 %} page-recipe{% endif %}{% endblock %}
+
+{% block content_inner %}
+    {% if contest.id == 1 %}{% include 'contest/comment_work.html' %}{% endif %}
+    {% if contest.id == 2 %}{% include 'contest/recipe_work.html' %}{% endif %}
+    {% if contest.id == 3 %}{% include 'contest/photocontest_work.html' %}{% endif %}
+{% endblock %}
+
+{% block js %}
+  <script src="{{ STATIC_URL }}js/jquery.form.js"></script>
+  <script src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
+{% endblock %}

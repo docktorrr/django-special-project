@@ -1,0 +1,55 @@
+{% load thumbnail %}
+
+{% with user.get_profile as profile %}
+      <div class="wellnes-card">
+        <a href="{% url logout %}" class="logout-link">Выход</a>
+        <div class="card__user">
+          {% if profile.avatar %}
+            {% thumbnail profile.avatar "69x69" crop="center" as im %}
+            <img src="{{ im.url }}" class="card__avatar">
+            {% endthumbnail %}
+          {% else %}
+          <img src="{{ STATIC_URL }}images/user-avatar.jpg" class="card__avatar">
+          {% endif %}
+          <span class="card__name">
+            {% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user }}{% endif %}
+          </span>
+        </div><!--/ .card__user -->
+        <div class="card__rates">
+          <a href="{% url rating %}" class="card-rate  one">
+            {{ rating1 }}
+          </a>
+          <span class="card-mask one">
+            Баллы за совет
+            <em>Клик - переход к рейтингу</em>
+          </span><!--/ .card-mask -->
+
+          <a href="{% url rating %}" class="card-rate two">
+            {{ rating2 }}
+          </a>
+          <span class="card-mask two">
+            Баллы за рецепт
+            <em>Клик - переход к рейтингу</em>
+          </span><!--/ .card-mask -->
+
+          <a href="{% url rating %}" class="card-rate three">
+            {{ rating3 }}
+          </a>
+          <span class="card-mask three">
+            Баллы за фото
+            <em>Клик - переход к рейтингу</em>
+          </span><!--/ .card-mask -->
+
+          <a href="{% url rating %}" class="card-rate four">
+            {{ sum }}
+          </a>
+          <span class="card-mask four">
+            Общие баллы
+            <em>Клик - переход к рейтингу</em>
+          </span><!--/ .card-mask -->
+
+          <div class="clear"></div>
+          <a href="{% url rating %}" class="card__go2rate">общий рейтинг</a>
+        </div><!--/ .card__rates -->
+      </div><!--/ .wellnes-card -->
+{% endwith %}

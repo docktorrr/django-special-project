@@ -1,0 +1,45 @@
+{% load thumbnail %}
+<section class="comment-list works-list b-wrap960">
+    <div class="comment">
+      <div class="comment__author">
+        {% with work.user.get_profile as profile %}
+        <div class="user__avatar">
+            {% if profile.avatar %}
+                {% thumbnail profile.avatar "69x69" crop="center" as im %}
+                <img src="{{ im.url }}" class="avatar__img">
+                {% endthumbnail %}
+            {% else %}
+                <img src="{{ STATIC_URL }}images/user-avatar.jpg" class="avatar__img">
+            {% endif %}
+        </div>
+        {% endwith %}
+        <span class="comment__username">
+          {% if work.user.get_full_name %}{{ work.user.get_full_name|wordwrap:"1"|linebreaksbr }}{% else %}{{ work.user }}{% endif %}
+        </span>
+        <time datetime="{{ work.date_added|date:'Y-m-d' }}">
+          {{ work.date_added|date:'j E Y' }}
+        </time>
+      </div><!--/ .comment__author -->
+
+      <div class="comment__likes">
+        <div class="social-share">
+          <a href="http://vk.com/share.php?url=http://doliva.wmj.ru{% url contest_work work.id %}" target="_blank" class="share-for vk" title="вконтакте"></a>
+          <a href="http://www.facebook.com/sharer.php?u=http://doliva.wmj.ru{% url contest_work work.id %}" target="_blank" class="share-for fb" title="facebook"></a>
+          <a href="https://twitter.com/intent/tweet?url=http://doliva.wmj.ru{% url contest_work work.id %}&text=Проголосуйте%20за%20мой%20комментарий%20в%20конкурсе%20D'oliva!" target="_blank" class="share-for tw" title="twitter"></a>
+          <a href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&amp;st.s=1&amp;st._surl=http://doliva.wmj.ru{% url contest_work work.id %}" target="_blank" class="share-for ok" title="одноклассники"></a>
+        </div>
+
+        <button class="btn btn-like vote-button" data-url="{% url contest_vote work.id %}">
+          <span class="btn-like__count">
+            <strong>{% if work.count_votes %}+{% endif %}<span id="vote-count-{{work.id}}">{{ work.count_votes }}</span></strong>
+          </span>
+          <span class="btn-like__label">Мне нравится совет</span>
+        </button>
+      </div><!--/ .comment__likes -->
+
+      <p class="comment__text">
+        {{ work.text|safe }}
+      </p>
+    </div><!--/ .comment -->
+
+</section>

@@ -1,0 +1,22 @@
+{% extends "inner.html" %}
+
+{% block meta %}
+    {% if contest.id == 1 and article %}
+    <meta property="og:url" content="http://doliva.wmj.ru{% url contest_article 1 article.id %}" />
+    <meta property="og:title" content="Тест-драйв D'Oliva: {{ article.title }}" />
+    <meta property="og:description" content="{{ article.text|striptags|safe|truncatewords:30 }}" />
+    {% endif %}
+{% endblock %}
+
+{% block class %}{{ block.super }}{% if contest.id == 1 %} page-testdrive{% endif %}{% if contest.id == 2 %} page-recipe{% endif %}{% endblock %}
+
+{% block content_inner %}
+    {% if contest.id == 1 %}{% include 'contest/testdrive.html' %}{% endif %}
+    {% if contest.id == 2 %}{% include 'contest/recipes.html' %}{% endif %}
+    {% if contest.id == 3 %}{% include 'contest/photocontest.html' %}{% endif %}
+{% endblock %}
+
+{% block js %}
+  <script src="{{ STATIC_URL }}js/jquery.form.js"></script>
+  <script src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
+{% endblock %}

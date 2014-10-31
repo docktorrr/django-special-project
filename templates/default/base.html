@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="ie8"><![endif]-->
+<!--[if IE 9]><html class="ie9"><![endif]-->  
+<!--[if !IE]><!--><html><!--<![endif]-->  
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Спецпроект D'oliva - Всегда в гармонии с тобой</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="shortcut icon" href="{{ STATIC_URL }}i/favicon_doliva.ico" type="image/x-icon" />  
+  {% block meta %}
+  {% endblock %}
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/fonts.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script>window.html5 || document.write('<script src="{{ STATIC_URL }}js/html5.js"><\/script>')</script>
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/ie8.css">
+  <![endif]-->
+</head>
+
+<body class="{% block class %}page-main{% endblock %}">
+	{% include 'default/social_auth.html' %}
+	{% block content %}
+	
+	{% endblock %}
+  <!--js-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"><\/script>')</script>
+  <script src="{{ STATIC_URL }}js/main.js"></script>
+  <script src="{{ STATIC_URL }}js/contest.js"></script>
+  {% block js %}
+  {% endblock %}
+  
+<!-- Google Analytics counter WMJ -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-210145-2']);
+  _gaq.push(['_setDomainName', '.wmj.ru']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- /Google Analytics counter -->  
+<!-- tns-counter.ru --> 
+<script language="JavaScript" type="text/javascript"> 
+	var img = new Image();
+	img.src = 'http://www.tns-counter.ru/V13a***R>' + document.referrer.replace(/\*/g,'%2a') + '*wmj_ru/ru/UTF-8/tmsec=wmj_total/' + Math.round(Math.random() * 1000000000);
+</script> 
+<noscript> 
+	<img src="http://www.tns-counter.ru/V13a****wmj_ru/ru/UTF-8/tmsec=wmj_total/" width="1" height="1" alt="">
+</noscript> 
+<!--/ tns-counter.ru -->
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">(function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter7399345 = new Ya.Metrika({id:7399345, webvisor:false, clickmap:false, trackLinks:true, accurateTrackBounce:true}); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="//mc.yandex.ru/watch/7399345" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</body>
+</html>

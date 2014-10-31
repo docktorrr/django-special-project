@@ -1,0 +1,36 @@
+{% load thumbnail %}
+<div class="rating-row">
+    <div class="rating-cell rating-user-cell">
+        <div class="rating__author {% if place == 1 %}first{% endif %}{% if place == 2 %}second{% endif %}{% if place == 3 %}third{% endif %}">
+            {% with user.get_profile as profile %}
+            <div class="rating__avatar">
+                {% if place == 1 or place == 2 or place == 3 %}
+                <div class="rating__place"></div>
+                {% endif %}
+                {% if profile.avatar %}
+                    {% thumbnail profile.avatar "69x69" crop="center" as im %}
+                    <img src="{{ im.url }}" class="avatar__img">
+                    {% endthumbnail %}
+                {% else %}
+                    <img src="{{ STATIC_URL }}images/user-avatar.jpg" class="avatar__img">
+                {% endif %}
+            </div>            
+            {% endwith %}    
+            <span class="rating__username">
+                {% if user.get_full_name %}{{ user.get_full_name|wordwrap:"1"|linebreaksbr }}{% else %}{{ user }}{% endif %}
+            </span>
+        </div>
+    </div>
+    <div class="rating-cell">
+        <div class="circle yellow">{{ rating1 }}</div>
+    </div>
+    <div class="rating-cell">
+        <div class="circle red">{{ rating2 }}</div>
+    </div>
+    <div class="rating-cell">
+        <div class="circle blue">{{ rating3 }}</div>
+    </div>
+    <div class="rating-cell rating-total-cell">
+        <div class="circle green">{{ sum }}</div>
+    </div>
+</div>

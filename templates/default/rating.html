@@ -1,0 +1,57 @@
+{% extends "inner.html" %}
+
+{% load user_tags %}
+
+{% block class %}{{ block.super }} page-rating{% endblock %}
+
+{% block content_inner %}
+  <section class="intro b-wrap960">
+    <div class="notice-from-bird">
+      <span class="notice__bird"></span>
+      <div class="notice__frame">
+        <p>
+          Это страница с рейтингом участников нашего проекта «Всегда в 
+          гармонии с тобой» от <strong>D</strong>`<strong>oliva</strong>. Здесь можно посмотреть, как много баллов 
+          на твоей велнесс-карте и сравнить их количество с другими участниками. 
+          Будь активной участницой и выигрывай призы!
+        </p>
+      </div>
+    </div><!--/ .notice-from-bird -->
+
+    <p class="intro__text">
+        Дорогие участники проекта, спешим обрадовать Вас, что конкурс продлевается до <strong>05.09.2014</strong> в связи с тем, что вы продолжаете активно добавлять работы, несмотря на то, что конкурс подошел к концу! Чтобы дать возможность набрать баллы всем, кто до 1 сентября успел принять участие в конкурсах, мы добавили несколько дней на голосование. Желаем всем удачи! 
+    </p>
+  </section><!--/ .intro -->
+
+<section class="rating b-wrap960">
+    <h2>Рейтинг участниц</h2>
+    
+    <div class="rating-wrap">
+        <div class="rating-row rating-table-header">
+            <div class="rating-cell rating-user-cell"></div>
+            <div class="rating-cell">Правильный <br>уход</div>
+            <div class="rating-cell">Здоровое <br>питание</div>
+            <div class="rating-cell">Внутренняя <br>гармония</div>
+            <div class="rating-cell rating-total-cell">Общий <br>рейтинг</div>        
+        </div>
+        {% for item in page.object_list %}
+            {% rating_item item.user forloop.counter0|add:page.start_index %}
+        {% endfor %}
+    </div>
+    
+    {% if page.paginator.num_pages > 1 %}
+    <div class="paging">
+        {% if page.has_previous %}
+            <a href="?page={{ page.previous_page_number }}" class="paging__prev"></a>
+        {% endif %}
+        {% for n in page.paginator.page_range %}
+            <a href="?page={{n}}" class="paging__num {% if  n == page.number %}active{% endif %}">{{ n }}</a>
+        {% endfor %}
+        {% if page.has_next %}
+            <a href="?page={{ page.next_page_number }}" class="paging__next"></a>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+</section>
+{% endblock %}

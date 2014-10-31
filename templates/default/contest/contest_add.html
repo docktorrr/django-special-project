@@ -1,0 +1,11 @@
+{% extends "inner.html" %}
+
+{% block class %}{{ block.super }}{% if contest.id == 2 %} page-recipe{% endif %}{% endblock %}
+
+{% block content_inner %}
+    {% if contest.id == 2 %}{% include 'contest/recipe_add.html' %}{% endif %}
+    {% if contest.id == 3 %}{% include 'contest/photocontest_add.html' %}{% endif %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}

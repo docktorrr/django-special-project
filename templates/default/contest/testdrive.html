@@ -1,0 +1,235 @@
+{% load thumbnail %}  
+  <section class="intro b-wrap960">
+    <div class="notice-from-bird">
+      <span class="notice__bird"></span>
+      <div class="notice__frame">
+        <p>
+          Полцарства за коня? За хороший крем и ценный совет не жалко и большего. Создадим бьюти-энциклопедию с подсказками на каждый день, как ухаживать за кожей лица, вместе!
+        </p>
+      </div>
+    </div><!--/ .notice-from-bird -->
+
+    <p class="intro__text">
+      Секретов ухода за нежной и подчас капризной кожей лица много не бывает. Ежеутреннее умывание кубиками льда, легкий самомассаж, железная привычка смывать макияж на ночь, маски «из холодильника» на основе натуральных ингредиентов – что успешно применяете вы? Расскажите о своих ритуалах красоты!<br>
+      Участвуйте в конкурсе комментариев и получите шанс выиграть набор косметики для лица и тела, а в подарок к нему  мягкое и пушистое большое полотенце <span class="doliva">D’oliva</span>. Сделанное из чистого хлопка, оно идеально дополнит ваш ежедневный уход за телом и будет радовать вас своим жизнерадостным цветом сочной зеленой травы!
+    </p>
+  </section><!--/ .intro -->
+
+  {% if article %}
+  <article class="testdrive__article b-wrap960">
+    <div class="testdrive__author">
+      {% if article.id == 1 %}
+      <div class="author__photo">
+        <img src="{{ STATIC_URL }}images/testdrive/author_1.jpg">
+        <span class="tizer__ribbon">Сухая кожа</span>
+      </div>
+      <h5 class="author__name">Екатерина Малахова</h5>
+      <h6 class="author__editor">27 лет, специалист по маркетингу, PR, блогер</h6>
+      <p class="author__info">
+        Приветствую!  Моя профессия, активная жизненная позиция и творческий подход ко всему накладывают особый отпечаток на отношение к своей внешности. Да что там говорить - выглядеть привлекательно и ощущать себя красивой должна каждая женщина!
+      </p>
+      {% endif %}
+      {% if article.id == 2 %}
+      <div class="author__photo">
+        <img src="{{ STATIC_URL }}images/testdrive/author_2.jpg">
+        <span class="tizer__ribbon">Нормальная кожа</span>
+      </div>
+      <h5 class="author__name">Оксана Нищук</h5>
+      <h6 class="author__editor">39 лет, Редактор Trendy.wmj.ru, автор Passion.ru</h6>
+      <p class="author__info">
+        Когда мне предложили протестировать косметику <strong>D</strong>`<strong>oliva</strong>, я сразу согласилась, ведь она основана на одном из любимых мною продуктов – оливковом масле. Я слышала много положительных отзывов об этой марке, а когда узнала о ней подробнее, поняла, что средства по уходу за лицом обещают решить некоторые проблемы моей кожи.
+      </p>
+      {% endif %}
+    </div><!--/ .testdrive__author -->
+
+    <div class="testdrive__text">
+    {{ article.text|safe }}
+    </div><!--/ .testdrive__text -->
+
+    <div class="testdrive__share">
+      Понравился тест-драйв? Расскажи друзьям —
+      <div class="social-share">
+          <a href="http://vk.com/share.php?url=http://doliva.wmj.ru{% url contest_article 1 article.id %}" target="_blank" class="share-for vk" title="вконтакте"></a>
+          <a href="http://www.facebook.com/sharer.php?u=http://doliva.wmj.ru{% url contest_article 1 article.id %}" target="_blank" class="share-for fb" title="facebook"></a>
+          <a href="https://twitter.com/intent/tweet?url=http://doliva.wmj.ru{% url contest_article 1 article.id %}&text={{article.text|striptags|safe|truncatewords:20}}" target="_blank" class="share-for tw" title="twitter"></a>
+          <a href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&amp;st.s=1&amp;st._surl=http://doliva.wmj.ru{% url contest_article 1 article.id %}" target="_blank" class="share-for ok" title="одноклассники"></a>
+      </div>
+    </div><!--/ .testdrive__share -->
+
+  </article><!--/ .testdrive__article -->
+  
+  {% else %}  
+  <section class="testdrive__tizers b-wrap960">
+
+    <div class="testdrive__tizer">
+      <div class="tizer__photo">
+        <img src="{{ STATIC_URL }}images/testdrive/author_1.jpg">
+        <span class="tizer__ribbon">Сухая кожа</span>
+      </div>
+      <h5 class="tizer__author">Екатерина Малахова</h5>
+      <h6 class="tizer__editor">Специалист по маркетингу, PR, блогер</h6>
+      <a href="{% url contest_article 1 1 %}" class="tizer__link">Читать тест-драйв с Екатериной</a>
+    </div><!--/ .testdrive__tizer -->
+
+    <div class="testdrive__tizer">
+      <div class="tizer__photo">
+        <img src="{{ STATIC_URL }}images/testdrive/author_2.jpg">
+        <span class="tizer__ribbon">Нормальная кожа</span>
+      </div>
+      <h5 class="tizer__author">Оксана Нищук</h5>
+      <h6 class="tizer__editor">Редактор Trendy.wmj.ru, автор Passion.ru</h6>
+      <a href="{% url contest_article 1 2 %}" class="tizer__link">Читать тест-драйв с Оксаной</a>
+    </div><!--/ .testdrive__tizer -->
+
+  </section><!--/ .testdrive__tizers -->
+  {% endif %}
+
+    {% if not user_work %}
+
+      <section class="posting posting-advice b-wrap960">
+        <div class="posting__trophy">
+          За лучший совет —<br>
+          великолепный набор<br>
+          косметики и большое<br>
+          пушистое полотенце!
+        </div>
+    
+        <div class="posting__before">
+          <h2>Оставь свой совет и выиграй приз!</h2>
+          <h4>За лучший совет — великолепный набор косметики и большое пушистое полотенце!</h4>
+          <button class="btn btn-postshow {% if user.is_authenticated %}btn-post-form-open{% else %}btn-auth{% endif %}">Посоветовать</button>
+        </div><!--/ .posting__before -->
+
+        {% if user.is_authenticated %}
+        <div class="posting__form" style="display: none;">
+          <h2>Оставь свой совет и выиграй приз!</h2>
+          <form class="comment-form ajax-form" id="post-form" method="POST" action="{% url contest_add_ajax contest.id %}">{% csrf_token %}
+            {% with user.get_profile as profile %}
+            <div class="user__avatar">
+                {% if profile.avatar %}
+                    {% thumbnail profile.avatar "69x69" crop="center" as im %}
+                    <img src="{{ im.url }}" class="avatar__img">
+                    {% endthumbnail %}
+                {% else %}
+                    <img src="{{ STATIC_URL }}images/user-avatar.jpg" class="avatar__img">
+                {% endif %}
+            </div>
+            {% endwith %}
+            <h6 class="username">{% if user.get_full_name|wordwrap:"1"|linebreaksbr %}{{ user.get_full_name }}{% else %}{{ user }}{% endif %}:</h6>
+            
+            <input type="hidden" name="name" value="Комментарий к тест-драйву">
+            <div class="wrap-comment-text">
+            <textarea class="comment-text" placeholder="Поделись с нами своим опытом" name="text"></textarea>
+            </div>
+            <div class="btns">
+              <div class="custom-cb">
+                <input id="rules" type="checkbox">
+                <label for="rules" name="rules">
+                  Я согласна с <a href="{{ STATIC_URL }}rules.pdf" class="rules-link">правилами конкурса</a>
+                </label>
+              </div>
+              <button class="btn btn-comment send-post-button">Отправить</button>
+            </div>
+          </form>
+
+        </div><!--/ .posting__form -->
+        {% endif %}
+
+        <div class="posting__after" style="display: none;">
+          <h2>Спасибо!</h2>
+          <h4>
+            Комментарий отправлен на модерацию. А пока ты можешь ознакомиться<br>
+            с другими разделами и продолжить участие в розыгрыше призов.
+          </h4>
+          <a href="#" class="continue-link">Продолжить!</a>
+        </div><!--/ .posting__after -->
+    
+        </section><!--/ .posting -->
+    {% endif %}
+
+  <a name="posts"></a>
+
+  <section class="comment-list works-list b-wrap960">
+    <div class="works-list__titles">
+      <h3>Все советы читателей</h3>
+      <h4>Понравился совет — лайкай!</h4>
+      <div class="order">
+        {% if sort == 'votes' %}
+        <span class="order__current">Популярные советы</span>
+        <ul class="order__menu opened" style="display: none; top: -55px;">
+          <li class="order__item">
+            <a href="?#posts" class="order__link">Новые советы</a>
+          </li>        
+        </ul><!-- /.order__menu -->
+        {% else %}
+        <span class="order__current">Новые советы</span>
+        <ul class="order__menu opened" style="display: none; top: -55px;">
+          <li class="order__item">
+            <a href="?sort=votes#posts" class="order__link">Популярные советы</a>
+          </li>        
+        </ul><!-- /.order__menu -->
+        
+        {% endif %}
+      </div>
+    </div><!--/ .works-list__titles -->
+
+    {% for work in page.object_list %}
+    <div class="comment">
+      <div class="comment__author">
+        {% with work.user.get_profile as profile %}
+        <div class="user__avatar">
+            {% if profile.avatar %}
+                {% thumbnail profile.avatar "69x69" crop="center" as im %}
+                <img src="{{ im.url }}" class="avatar__img">
+                {% endthumbnail %}
+            {% else %}
+                <img src="{{ STATIC_URL }}images/user-avatar.jpg" class="avatar__img">
+            {% endif %}
+        </div>
+        {% endwith %}
+        <span class="comment__username">
+          {% if work.user.get_full_name %}{{ work.user.get_full_name|wordwrap:"1"|linebreaksbr }}{% else %}{{ work.user }}{% endif %}
+        </span>
+        <time datetime="{{ work.date_added|date:'Y-m-d' }}">
+          {{ work.date_added|date:'j E Y' }}
+        </time>
+      </div><!--/ .comment__author -->
+
+      <div class="comment__likes">
+        <div class="social-share">
+          <a href="http://vk.com/share.php?url=http://doliva.wmj.ru{% url contest_work work.id %}" target="_blank" class="share-for vk" title="вконтакте"></a>
+          <a href="http://www.facebook.com/sharer.php?u=http://doliva.wmj.ru{% url contest_work work.id %}" target="_blank" class="share-for fb" title="facebook"></a>
+          <a href="https://twitter.com/intent/tweet?url=http://doliva.wmj.ru{% url contest_work work.id %}&text=Проголосуйте%20за%20мой%20комментарий%20в%20конкурсе%20D'oliva!" target="_blank" class="share-for tw" title="twitter"></a>
+          <a href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&amp;st.s=1&amp;st._surl=http://doliva.wmj.ru{% url contest_work work.id %}" target="_blank" class="share-for ok" title="одноклассники"></a>
+        </div>
+
+        <button class="btn btn-like vote-button" data-url="{% url contest_vote work.id %}">
+          <span class="btn-like__count">
+            <strong>{% if work.count_votes %}+{% endif %}<span id="vote-count-{{work.id}}">{{ work.count_votes }}</span></strong>
+          </span>
+          <span class="btn-like__label">Мне нравится совет</span>
+        </button>
+      </div><!--/ .comment__likes -->
+
+      <p class="comment__text">
+        {{ work.text|safe }}
+      </p>
+    </div><!--/ .comment -->
+    {% endfor %}
+    
+
+    {% if page.paginator.num_pages > 1 %}
+    <div class="paging">
+        {% if page.has_previous %}
+            <a href="?page={{ page.previous_page_number }}{% if sort %}&sort={{sort}}{% endif %}" class="paging__prev"></a>
+        {% endif %}
+        {% for n in page.paginator.page_range %}
+            <a href="?page={{n}}{% if sort %}&sort={{sort}}{% endif %}" class="paging__num {% if  n == page.number %}active{% endif %}">{{ n }}</a>
+        {% endfor %}
+        {% if page.has_next %}
+            <a href="?page={{ page.next_page_number }}{% if sort %}&sort={{sort}}{% endif %}" class="paging__next"></a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+  </section><!--/ .comment-list -->

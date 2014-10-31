@@ -1,0 +1,295 @@
+{% extends "default/base.html" %}
+
+{% load contest_tags %}
+
+{% block class %}page-main{% endblock %}
+
+{% block content %}
+  <header id="header">
+    <div class="b-wrap960">
+      <a href="/" class="doliva-logo">D'oliva</a>
+      <span class="ribbon-for-logo"></span>
+
+      {% include 'default/auth_card.html' %}
+      
+    </div><!--/ .b-wrap960 -->
+  </header><!--/ #header -->
+
+  <section class="slider">
+    <div class="slider-inner">
+      <ul class="slides">
+
+        <li class="slide one active">
+          <img src="{{ STATIC_URL }}i/front/glavnyj.png" class="slide__bg">
+          <img src="{{ STATIC_URL }}i/front/glavnyj-video-poster.jpg" class="slide__video-poster">
+          <video class="slide__video" width="1280" height="300" autoplay="autoplay" loop="loop" preload="true">
+            <source src='{{ STATIC_URL }}i/front/glavnyj.ogv' type='video/ogg; codecs="theora, vorbis"'>
+            <source src="{{ STATIC_URL }}i/front/glavnyj.mp4" type='video/mp4; codecs="avc1.4D401E, mp4a.40.2"'>
+          </video>
+          <div class="slide__video-fix"></div>
+          <div class="slide__captions">
+            <p class="slide__caption-1">
+              Пройди три этапа познания<br>
+              и составь для себя<br>
+              индивидуальную велнес-карту<span class="caption__asterisk">*</span>.<br>
+            </p>
+            <p class="slide__caption-2">
+              За лучшую карту — подарок!
+            </p>
+            <p class="slide__caption-3">
+              *Велнес-карта — Карта здоровья
+            </p>
+          </div>
+
+          <div class="slide__trophy">
+            <div class="trophy__inner">
+              <img src="{{ STATIC_URL }}i/front/glavnyj-trophy.png" class="trophy__pic">
+              <p>
+                Большой набор косметики из пяти предметов,<br>ароматическая свеча, оливковое масло и <br>пушистое полотенце!
+              </p>
+            </div>
+          </div><!--/ .slide__trophy -->
+
+        </li><!--/ .slide.one -->
+
+        <li class="slide two">
+          <img src="{{ STATIC_URL }}i/front/pravilnyj-uhod.jpg" class="slide__bg">
+          <div class="slide__captions">
+            <p class="slide__caption-1">
+              Узнай больше о правильном<br>
+              уходе за кожей и поделись со<br>
+              всеми своим опытом.<br>
+            </p>
+            <p class="slide__caption-2">
+              За лучший совет — подарок!
+            </p>
+          </div>
+
+          <div class="slide__trophy">
+            <div class="trophy__inner">
+              <img src="{{ STATIC_URL }}i/front/pravilnyj-uhod-trophy.png" class="trophy__pic">
+              <p>
+                Приз за победу в конкурсе «Правильный уход» —<br>
+                набор косметики из трёх предметов и большое<br>
+                пушистое полотенце! 
+              </p>
+            </div>
+          </div><!--/ .slide__trophy -->
+
+        </li><!--/ .slide.two -->
+
+        <li class="slide three">
+          <img src="{{ STATIC_URL }}i/front/vnutrennjaja-garmonija.jpg" class="slide__bg">
+          <div class="slide__captions">
+            <p class="slide__caption-1">
+              Испытай с нами новые чувства<br>
+              и расскажи о своих ощущениях<br>
+              в селфи-фотоконкурсе.<br>
+            </p>
+            <p class="slide__caption-2">
+              За лучший селфи — подарок!
+            </p>
+          </div>
+
+          <div class="slide__trophy">
+            <div class="trophy__inner">
+              <img src="{{ STATIC_URL }}i/front/vnutrennjaja-garmonija-trophy.png" class="trophy__pic">
+              <p>
+                Приз за победу в конкурсе «Правильный уход» —<br>
+                набор косметики из трёх предметов и эксклюзивная<br>
+                ароматическая свеча! 
+              </p>
+            </div>
+          </div><!--/ .slide__trophy -->
+
+        </li><!--/ .slide.three -->
+
+        <li class="slide four">
+          <img src="{{ STATIC_URL }}i/front/zdorovoe-pitanie.jpg" class="slide__bg">
+          <div class="slide__captions">
+            <p class="slide__caption-1">
+              Готовь полезно и вкусно по<br>
+              нашим рецептам и расскажи<br>
+              о своих любимых рецептах.
+            </p>
+            <p class="slide__caption-2">
+              За лучший рецепт — подарок!
+            </p>
+          </div>
+
+          <div class="slide__trophy">
+            <div class="trophy__inner">
+              <img src="{{ STATIC_URL }}i/front/zdorovoe-pitanie-trophy.png" class="trophy__pic">
+              <p>
+                Приз за победу в конкурсе «Правильный уход» —<br>
+                набор косметики из трёх предметов и уникальное<br>
+                оливковое масло! 
+              </p>
+            </div>
+          </div><!--/ .slide__trophy -->
+
+        </li><!--/ .slide.four -->
+
+      </ul><!-- /.slides -->
+
+    </div><!-- /.slider-inner -->
+
+      <div class="b-wrap960">
+
+        <div class="notice-from-bird">
+          <span class="notice__bird"></span>
+          <div class="notice__frame">
+            <p>
+              Добро пожаловать в мир красоты <span class="doliva">D`oliva</span>! Здесь вы сможете поделиться собственными секретами красоты, узнать новые бьюти-рецепты, составить личную велнес-карту и выиграть роскошные призы в селфи-конкурсе. Правильный уход, здоровое питание и внутренняя гармония, – это три раздела нашего проекта, в которых вас ждет много интересного!          
+            </p>
+          </div>
+        </div><!--/ .notice-from-bird -->
+
+      </div><!--/ .b-wrap960 -->
+    
+    <div class="slider__ctrls b-wrap">
+      <button class="slide-prev"></button>
+      <button class="slide-next"></button>
+      <ul class="slider_bullets">
+        <li class="slider_bullet active"></li>
+        <li class="slider_bullet"></li>
+        <li class="slider_bullet"></li>
+        <li class="slider_bullet"></li>
+      </ul><!--/ .slider_bullers -->
+    </div><!--/ .slider__ctrls -->
+
+  </section><!-- /.slider -->
+
+
+  <section class="contest-tizers">
+    <div class="b-wrap960">
+
+      <div class="contest-tizer one yellow">
+
+        <span class="contest-number number-yellow number-big">
+          <em class="contest-number_dig">1</em>
+        </span><!--/ .contest-number -->
+
+        <div class="pennant">
+          <h3>Правильный уход</h3>
+          <a href="{% url contest_list 1 %}" class="btn btn-orange">Дать совет</a>
+          <div class="counter">
+            Нам дали
+            <span class="counter_dig">{% count_works 1 %}</span>
+            советов
+          </div><!-- /.counter -->
+          <div class="intro">
+            <h4>
+              С чего начинается красота? 
+            </h4>
+            <p>
+              Ждем ваши секреты ухода за лицом! 
+            </p>
+            <a href="{% url contest_list 1 %}" class="contest-link">Почитать</a>
+          </div><!-- /.intro -->
+        </div><!-- /.pennant -->
+
+        <div class="description">
+          <h5>Тест-драйв!</h5>
+          <p>
+            Энциклопедия красоты, написанная по вашим советам
+          </p>
+        </div><!-- /.description -->
+
+      </div><!-- /.contest-tizer.one.yellow -->
+
+
+      <div class="contest-tizer two red">
+
+        <span class="contest-number number-red number-big">
+          <em class="contest-number_dig">2</em>
+        </span><!--/ .contest-number -->
+
+        <div class="pennant">
+          <h3>Здоровое питание</h3>
+          <a href="{% url contest_list 2 %}" class="btn btn-red">Поделиться рецептом</a>
+          <div class="counter">
+            Добавили
+            <span class="counter_dig">{% count_works 2 %}</span>
+            рецептов
+          </div><!-- /.counter -->
+          <div class="intro">
+            <h4>
+              Бывает ли вкусное полезным, а полезное – вкусным? 
+            </h4>
+            <p>
+              Пополняем копилку рецептов, без которых нельзя представить меню красоты!    
+            </p>
+            <a href="{% url contest_list 2 %}" class="contest-link">Попробовать</a>
+          </div><!-- /.intro -->
+        </div><!-- /.pennant -->
+
+        <div class="description">
+          <h5>Вкусные рецепты!</h5>
+          <p>
+            Идеальный рацион для красоты и тонуса по вашим рецептам 
+          </p>
+        </div><!-- /.description -->
+
+      </div><!-- /.contest-tizer.two.red -->
+
+
+      <div class="contest-tizer three blue">
+
+        <span class="contest-number number-blue number-big">
+          <em class="contest-number_dig">3</em>
+        </span><!--/ .contest-number -->
+
+        <div class="pennant">
+          <h3>Внутренняя гармония</h3>
+          <a href="{% url contest_list 3 %}" class="btn btn-blue">Добавить своё фото</a>
+          <div class="counter">
+            Показали
+            <span class="counter_dig">{% count_works 3 %}</span>
+            релакс-<br>
+            фото
+          </div><!-- /.counter -->
+          <div class="intro">
+            <h4>
+              Как обрести уверенность в себе? 
+            </h4>
+            <p>
+              Учимся ценить и выражать собственную индивидуальность. 
+            </p>
+            <a href="{% url contest_list 3 %}" class="contest-link">Испытать</a>
+          </div><!-- /.intro -->
+        </div><!-- /.pennant -->
+
+        <div class="description">
+          <h5>Фотографии и селфи!</h5>
+          <p>
+            Искусство быть собой – ваш секрет внутреннего равновесия 
+          </p>
+        </div><!-- /.description -->
+
+      </div><!-- /.contest-tizer.three.blue -->
+
+    </div><!-- /.b-wrap960 -->
+    <div class="clear"></div>
+  </section><!-- /.contest-tizers -->
+
+  <div class="b-wrap960">
+    <a href="#" class="pharma-logo"></a>
+  </div><!--/ .b-wrap960 -->
+
+  <footer id="footer">
+    <div class="b-wrap960">
+    <a class="wmj-logo" href="http://www.wmj.ru" target="_blank"></a>
+    <p class="copyright">
+      По всем вопросам, связанным с проведением конкурса, пишите на <a href="mailto:special@webprimegroup.ru?subject=Вопрос%20по%20поводу%20конкурса%20Doliva" class="mailto">special@webprimegroup.ru</a>
+      <br>
+      © 2005-2014, «WomanJournal» «Женский Интернет-журнал». 
+      <br>
+      Свидетельство о регистрации СМИ Эл № ФС77-54171 от 17.05.2013 г.
+      <br>
+      Сайт может содержать контент, запрещенный для просмотра лицам до 16 лет.
+    </p>
+    </div><!--/ .b-wrap -->
+  </footer><!--/ #footer-->
+
+{% endblock %}

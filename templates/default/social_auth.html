@@ -1,0 +1,29 @@
+  <div class="lb-bg">
+    <div class="lb-wrapper">
+      <div class="lb-inner">
+        <div class="lb login">
+          <button class="lb__close" title="Закрыть" type="button"></button>
+          <h5 class="lb__title">
+            Авторизуйтесь, используя<br>
+            ваш профиль в соцсети:
+          </h5>
+          <div class="social-auth">
+            <a href="{% url socialauth_begin 'vk-oauth' %}" class="auth-via vk" title="вконтакте"></a>
+            <a href="{% url socialauth_begin 'odnoklassniki' %}" class="auth-via ok" title="одноклассники"></a>
+            <a href="{% url socialauth_begin 'twitter' %}" class="auth-via tw" title="twitter"></a>
+            <a href="{% url socialauth_begin 'facebook' %}" class="auth-via fb" title="facebook"></a>
+            <a href="{% url socialauth_begin 'google-oauth2' %}" class="auth-via gp" title="google+"></a>
+            {% comment %}
+            <a href="{% url socialauth_begin 'mailru-oauth2' %}" class="auth-via mr" title="мой мир"></a>
+            {% endcomment%}
+          </div>
+          <p class="lb__remark">
+            После авторизации ты<br>
+            сможешь оставить свой совет,<br>
+            или комментарий.
+          </p>
+        </div><!--/.lb.login-->
+
+      </div><!--/.lb-inner-->
+    </div><!--/.lb-wrapper-->
+  </div><!--/.lb-bg-->

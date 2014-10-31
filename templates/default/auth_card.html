@@ -1,0 +1,20 @@
+{% load user_tags %}
+{% if not user.is_authenticated %}
+    <div class="auth-card">
+        <div class="btns">
+          <button class="btn-auth">
+            Вход
+          </button>
+          <span class="delemiter">/</span>
+          <button class="btn-auth">
+            Регистрация
+          </button>
+        </div>
+        <p class="label">
+          Моя будущая<br>
+          велнес-карта
+        </p>
+    </div><!--/ .auth-card -->
+{% else %}
+    {% user_card %}
+{% endif %}
