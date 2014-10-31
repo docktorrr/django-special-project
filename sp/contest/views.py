@@ -12,7 +12,7 @@ from django.contrib.auth import logout as logout_user
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.conf import settings
 from sp.contest import settings as opts
-from sp.contest.models import Contest, Work, Vote, WorkExtraFieldValue
+from sp.contest.models import Contest, Work, Vote
 from sp.contest.forms import WorkForm
 from sp.contest.decorators import active_contest_exists
 from sp.publications.models import Article

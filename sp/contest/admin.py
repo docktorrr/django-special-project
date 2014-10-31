@@ -7,10 +7,9 @@ class ContestAdmin(admin.ModelAdmin):
     model = Contest
     list_display = ('title', 'is_active')
    
-
-   class WorkCategoryAdmin(admin.ModelAdmin):
+   
+class WorkCategoryAdmin(admin.ModelAdmin):
     model = WorkCategory
-    list_display = ('title', 'is_active')
 
     
 class VoteInline(admin.TabularInline):

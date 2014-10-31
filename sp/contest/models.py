@@ -2,30 +2,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.encoding import force_unicode
-
+from sp.utils import transliterate
 
 # utils
-def transliterate(text):
-    TRANS_MAP = { u'а':'a', u'б':'b', u'в':'v', u'г':'g', u'д':'d', u'е':'e', u'ё':'e', u'ж':'zh',
-              u'з':'z', u'и':'i', u'й':'i', u'к':'k', u'л':'l', u'м':'m', u'н':'n', u'о':'o',
-              u'п':'p', u'р':'r', u'с':'s', u'т':'t', u'у':'u', u'ф':'f', u'х':'h', u'ц':'ts',
-              u'ч':'ch', u'ш':'sh', u'щ':'sch', u'ъ':'j', u'ы':'y', u'ь':'j', u'э':'e', u'ю':'yu',
-              u'я':'ya', u' ':'-', u'_':'_', u'№': '', u'"': '', u'\'': '', u'«': '', u'»': ''}
-
-    if not isinstance(text, unicode):
-        text = force_unicode(text)
-    text = text.lower()
-    retval = []
-    for t in text:
-        translation = TRANS_MAP.get(t,None)
-        if translation is not None:
-            retval += translation
-        else:
-            retval += t
-    retval = "".join(retval)
-    return retval
-
-
 def contest_image_path(instance, filename):
     return "images/contest/%s" % transliterate(filename)
 
@@ -70,7 +49,7 @@ class Work(models.Model):
     contest = models.ForeignKey(Contest, related_name='works', verbose_name=u'Конкурс')
     user = models.ForeignKey(User, related_name='works', verbose_name=u'Пользователь')
     name = models.CharField(u'Название', max_length=256, blank=True, null=True)
-    category = models.ForeignKey(u'Категория', null=True)
+    category = models.ForeignKey(WorkCategory, related_name='works', verbose_name=u'Категория', null=True)
     count_votes = models.IntegerField(u'Количество голосов', default=0)
     is_published = models.BooleanField(u'Опубликовано', default=False, db_index=True)
     date_added = models.DateTimeField(u'Дата добавления', auto_now_add=True)
