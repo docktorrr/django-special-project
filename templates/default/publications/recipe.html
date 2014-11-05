@@ -1,0 +1,10 @@
+
+<h1>{{ recipe.title }}<h1>
+<div>
+{{ recipe.text|safe }}
+</div>
+{% if recipe.ingridients %}
+<div>
+{{ recipe.ingridients.text|safe }}
+</div>
+{% endif %}

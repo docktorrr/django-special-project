@@ -1,0 +1,40 @@
+{% extends "base_inner.html" %}
+{% load thumbnail %}
+
+{% block content %}
+    <form id="quiz-form" action="{% url quiz_send %}" method="POST">{% csrf_token %}
+        {% with quiz.questions.all as questions %}
+        {% for question in questions %}
+        
+          <section class="quiz quiz-question" {% if not forloop.first %}style="display:none;"{% endif %}>
+            <h3>вопрос {{ forloop.counter }} из {{ questions|length }}</h3>
+            <div class="quiz__inner">
+              <h4>
+                {{ question.text|safe }}
+              </h4>
+
+              <ul class="answers" data-url="{% url quiz_get_scores question.id %}">
+                {% for answer in question.answers.all %}
+                <li class="answer">
+                  <div class="answer__wrap">
+                    {% thumbnail answer.image "244x170" crop="center" as im %}
+                        <img class="answer__pic" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                    {% endthumbnail %}
+                  </div>
+                  <span class="answer__label">
+                    {{ answer.text }}
+                  </span>
+                  <input type="radio" name="answer_{{ answer.id }}" style="display:none;">
+                </li><!--/.answer-->
+                {% endfor %}
+              </ul><!--/.answers-->
+
+              <button class="btn btn-big quiz-next-button">Следующий вопрос</button>
+
+            </div><!--/.quiz__inner-->
+          </section><!--/.quiz-->
+        
+        {% endfor %}
+        {% endwith %}
+    </form>
+{% endblock %}

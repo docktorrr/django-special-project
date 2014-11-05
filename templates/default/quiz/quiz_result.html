@@ -1,0 +1,32 @@
+{% extends "base_inner.html" %}
+{% load thumbnail %}
+
+{% block content %}
+  <section class="quiz-result">
+    <h3>Спасибо!</h3>
+    
+    <div class="quiz-result__inner">
+      <h4>Ваш уровень знаний: {{ result.title }}</h4>
+      <h5>(количество верных ответов: {{ score }})</h5>
+      {{ result.text|safe }}
+    </div>
+    
+    <div class="socials">
+      <span class="socials__label">
+        Понравилось?<br>
+        Расскажи друзьям —
+      </span>
+      <a href="http://vk.com/share.php?url=http://syoss.passion.ru/" class="social vk" target="_blank"></a>
+      <a href="http://www.facebook.com/sharer.php?u=http://syoss.passion.ru/" class="social fb" target="_blank"></a>
+      <a href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&amp;st.s=1&amp;st._surl=http://syoss.passion.ru/" class="social ok" target="_blank"></a>
+    </div><!--/.socials-->
+
+  </section><!--/.quiz-result-->
+
+  <hr class="hr-big">
+  
+    <p class="notice">
+      А теперь вы можете <a href="{% url testdrive %}" class="notice__link">почитать наш тест-драйв</a> или <a href="{% url index %}" class="notice__link">ознакомиться с советами по окрашиванию!</a>
+    </p>
+  
+{% endblock %}
