@@ -22,6 +22,8 @@ class Rubric(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(u'Название', max_length=250, db_index=True)
+    description = models.TextField(u'Описание', null=True, blank=True)
+    slug = models.SlugField(u'Транслитерация', max_length=100, null=True, blank=True)
     
     class Meta:
         verbose_name = u"Тэг"
