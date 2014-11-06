@@ -214,5 +214,6 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
-#Django local settings
+#Project local ignores
 settings_local.py
+public
