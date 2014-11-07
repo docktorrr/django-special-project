@@ -7,7 +7,7 @@ register = template.Library()
 
 @register.inclusion_tag('users/templatetags/user_card.html', takes_context=True)
 def user_card(context):
-    from contest.models import Work
+    from sp.contest.models import Work
     user = context['user']
     rating1 = Work.objects.filter(contest__id=1, user=user).aggregate(rating=Sum('count_votes'))['rating'] or 0
     rating2 = Work.objects.filter(contest__id=2, user=user).aggregate(rating=Sum('count_votes'))['rating'] or 0
@@ -24,7 +24,7 @@ def user_card(context):
 
 @register.inclusion_tag('users/templatetags/rating_item.html', takes_context=True)
 def rating_item(context, user_id, place=0):
-    from contest.models import Work    
+    from sp.contest.models import Work    
     user = User.objects.get(id=user_id)
     rating1 = Work.objects.filter(contest__id=1, user=user).aggregate(rating=Sum('count_votes'))['rating'] or 0
     rating2 = Work.objects.filter(contest__id=2, user=user).aggregate(rating=Sum('count_votes'))['rating'] or 0
