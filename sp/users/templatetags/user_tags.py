@@ -2,10 +2,11 @@ from django import template
 from django.utils.safestring import mark_safe
 from django.db.models import Sum
 from django.contrib.auth.models import User
+from django.conf import settings
 
 register = template.Library()
 
-@register.inclusion_tag('users/templatetags/user_card.html', takes_context=True)
+@register.inclusion_tag('%s/%s' % (settings.TEMPLATE_THEME, 'users/templatetags/user_card.html'), takes_context=True)
 def user_card(context):
     from sp.contest.models import Work
     user = context['user']
@@ -22,7 +23,7 @@ def user_card(context):
             'sum': sum,
             }
 
-@register.inclusion_tag('users/templatetags/rating_item.html', takes_context=True)
+@register.inclusion_tag('%s/%s' % (settings.TEMPLATE_THEME, 'users/templatetags/rating_item.html'), takes_context=True)
 def rating_item(context, user_id, place=0):
     from sp.contest.models import Work    
     user = User.objects.get(id=user_id)
