@@ -27,7 +27,9 @@ def recipes(request):
             recipes = recipes.none()
     if 'calories' in dict:
         recipes = recipes.filter(calories=dict['calories'])
-    if 'time' in dict:
-        recipes = recipes.filter(cooking_time=dict['time'])
+    if 'time_min' in dict and dict['time_min'] != '':
+        recipes = recipes.filter(cooking_time__gte=dict['time_min'])
+    if 'time_max' in dict and dict['time_max'] != '':
+        recipes = recipes.filter(cooking_time__lte=dict['time_max'])
     
     return render_to_response('%s/%s' % (settings.TEMPLATE_THEME, 'publications/recipes.html'), {'recipes': recipes, 'params': dict}, context_instance=RequestContext(request))
