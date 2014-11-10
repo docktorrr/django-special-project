@@ -57,6 +57,7 @@ class Recipe(Article):
     ingridients = models.TextField(u'Ингридиенты', null=True, blank=True)
     calories = models.IntegerField(u'Калории', db_index=True)
     cooking_time = models.IntegerField(u'Время приготовления (мин.)', db_index=True)
+    portions = models.IntegerField(u'Количество порций', null=True, blank=True)
 
     class Meta:
         verbose_name = u"Рецепт"
