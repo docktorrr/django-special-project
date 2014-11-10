@@ -107,6 +107,7 @@ INSTALLED_APPS = (
     'social_auth',
     'ckeditor',
     'south',
+    'sp.frontend',
     'sp.users',
     'sp.contest',
     'sp.quiz',

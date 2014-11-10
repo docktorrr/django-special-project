@@ -32,4 +32,4 @@ def recipes(request):
     if 'time_max' in dict and dict['time_max'] != '':
         recipes = recipes.filter(cooking_time__lte=dict['time_max'])
     
-    return render_to_response('%s/%s' % (settings.TEMPLATE_THEME, 'publications/recipes.html'), {'recipes': recipes}, context_instance=RequestContext(request))
+    return render_to_response('%s/%s' % (settings.TEMPLATE_THEME, 'publications/recipes.html'), {'recipes': recipes, 'params': dict}, context_instance=RequestContext(request))
