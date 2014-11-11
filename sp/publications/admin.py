@@ -29,6 +29,7 @@ admin.site.register(Article, ArticleAdmin)
 
 
 class RecipeForm(ArticleForm):
+    ingridients = forms.CharField(widget=CKEditorWidget(), label=u'Ингридиенты')
 
     class Meta:
         model = Recipe
