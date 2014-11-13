@@ -146,7 +146,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.social.associate_user',
     'social_auth.backends.pipeline.social.load_extra_data',
     'social_auth.backends.pipeline.user.update_user_details',
-    'users.social_auth_pipeline.get_user_avatar',
+    'sp.users.social_auth_pipeline.get_user_avatar',
 )
 
 LOGGING = {
