@@ -160,13 +160,32 @@ def vote(request, id):
         if work.contest.stop_date and date.today() > work.contest.stop_date:
             return HttpResponse(simplejson.dumps({'success':False, 'html': u'Голосование закончилось', 'id': work.id}), content_type="application/json")
                 
+        user = None
+        if request.user.is_authenticated():
+            user = request.user            
         ip = request.META["REMOTE_ADDR"]
-        if not Vote.objects.filter(work=work, ip_address=ip).count():
-            vote = Vote(work=work, ip_address=ip)
+        
+        success = True
+        error = ''
+        if work.contest.unauth_voting:
+            if Vote.objects.filter(work=work, ip_address=ip).count() > 0:
+                success = False
+                error = u'Вы уже голосовали'
+        else:
+            if not user:
+                success = False
+                error = u'Вы должны быть авторизованы'
+            if Vote.objects.filter(work=work, ip_address=ip).count() > 0:
+                success = False
+                error = u'Вы уже голосовали'
+
+        if success:
+            vote = Vote(work=work, ip_address=ip, user=user)
             vote.save()
             return HttpResponse(simplejson.dumps({'success':True, 'html': u'Ваш голос учтен', 'id': work.id}), content_type="application/json")            
         else:
-            return HttpResponse(simplejson.dumps({'success':False, 'html': u'Вы уже голосовали', 'id': work.id}), content_type="application/json")
+            return HttpResponse(simplejson.dumps({'success':False, 'html': error, 'id': work.id}), content_type="application/json")
+            
     else:
         return HttpResponseBadRequest()
 

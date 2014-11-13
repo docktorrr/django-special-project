@@ -15,6 +15,7 @@ class Contest(models.Model):
     description = models.TextField(u'Описание')
     is_active = models.BooleanField(u'Активный', default=False)
     page_size = models.IntegerField(u'Размер страницы', default=10)
+    unauth_voting = models.BooleanField(u'Возможность неавторизованного голосования', default=False)
     name_input = models.BooleanField(u'Ввод названия', default=True)
     image_input = models.BooleanField(u'Ввод изображения', default=True)
     text_input = models.BooleanField(u'Ввод текста', default=True)
@@ -80,6 +81,7 @@ class Vote(models.Model):
     work = models.ForeignKey(Work, related_name='votes')
     datetime = models.DateTimeField(auto_now_add=True)
     ip_address = models.IPAddressField()
+    user = models.ForeignKey(User, related_name='votes', verbose_name=u'Пользователь', null=True)
 
     class Meta:
         verbose_name = u'Голос'
