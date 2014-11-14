@@ -17,14 +17,14 @@ def index(request):
                                 context_instance=RequestContext(request))
 
 
-def quiz(request):
-    quiz = get_object_or_404(Quiz, id=opts.ACTIVE_QUIZ)
+def quiz(request, quiz_id=None):
+    quiz = get_object_or_404(Quiz, id=(quiz_id or opts.ACTIVE_QUIZ))
     return render_to_response('quiz/quiz.html',
                                 {
                                     'quiz': quiz,
                                 },
                                 context_instance=RequestContext(request))
-
+                                
 def set_email(request):
     if request.method == "POST":
         quiz = get_object_or_404(Quiz, id=opts.ACTIVE_QUIZ)

@@ -44,7 +44,7 @@ class Article(models.Model):
     pubdate = models.DateTimeField(u'Дата публикации', default=datetime.now, db_index=True)
     date_created = models.DateTimeField(u'Дата создания', auto_now_add=True, editable=False)
     date_changed = models.DateTimeField(u'Дата изменения', auto_now=True, editable=False)
-    tags = models.ManyToManyField(Tag, verbose_name=u'Теги')
+    tags = models.ManyToManyField(Tag, verbose_name=u'Теги', blank=True)
 
     class Meta:
         verbose_name = u"Статья"
