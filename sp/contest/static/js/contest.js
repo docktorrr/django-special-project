@@ -1,5 +1,5 @@
 $(function() {
-    $('.vote-button').click(function(){
+    $('.vote-button').on('click', function(){
         voteForPost($(this));
         return false;
     });
@@ -38,7 +38,7 @@ function voteForPost(elem) {
 function voteCallback(responseText, statusText, xhr) {
     if(responseText.success==true) {
         var id = responseText.id;
-        $('#vote-count-' + id).html(parseInt($('#vote-count-' + id).html())+1);
+        $('.vote-count-' + id).text(parseInt($('#vote-count-' + id).text())+1);
     } else {
         alert(responseText.html);
     }

@@ -21,6 +21,8 @@ admin.site.register(Quiz, QuizAdmin)
 
 
 class QuestionAdmin(admin.ModelAdmin):
+    list_display = ('text', 'quiz')
+    list_filter = ("quiz",)
     inlines = [AnswerInline]
 admin.site.register(Question, QuestionAdmin)
 

@@ -151,6 +151,13 @@ def contest_work(request, id):
                                'next': next,},
                               context_instance=RequestContext(request))
 
+def contest_done(request, id):    
+    work = get_object_or_404(Work, id=id)
+    return render_to_response('%s/%s' % (settings.TEMPLATE_THEME, 'contest/contest_done.html'),
+                              {
+                               'work': work
+                              },
+                              context_instance=RequestContext(request))
 
 def vote(request, id):
     if request.is_ajax() and request.method=='POST':
@@ -175,7 +182,7 @@ def vote(request, id):
             if not user:
                 success = False
                 error = u'Вы должны быть авторизованы'
-            if Vote.objects.filter(work=work, ip_address=ip).count() > 0:
+            if Vote.objects.filter(work=work, user=user).count() > 0:
                 success = False
                 error = u'Вы уже голосовали'
 

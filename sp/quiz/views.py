@@ -4,13 +4,14 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, Http404
 from django.core.urlresolvers import reverse
+from django.conf import settings
 from sp.quiz.models import Quiz, Answer, ScoreVariant, UserScore, Question
 from sp.quiz import settings as opts
 
 
 def index(request):
     quiz = get_object_or_404(Quiz, id=opts.ACTIVE_QUIZ)
-    return render_to_response('quiz/index.html',
+    return render_to_response('%s/%s' % (settings.TEMPLATE_THEME, 'quiz/index.html'),
                                 {
                                     'quiz': quiz,
                                 },
@@ -19,7 +20,7 @@ def index(request):
 
 def quiz(request, quiz_id=None):
     quiz = get_object_or_404(Quiz, id=(quiz_id or opts.ACTIVE_QUIZ))
-    return render_to_response('quiz/quiz.html',
+    return render_to_response('%s/%s' % (settings.TEMPLATE_THEME, 'quiz/quiz.html'),
                                 {
                                     'quiz': quiz,
                                 },
@@ -49,7 +50,7 @@ def set_email(request):
         if len(variants):
             result = variants[0]
 
-        return render_to_response('quiz/set_email.html',
+        return render_to_response('%s/%s' % (settings.TEMPLATE_THEME, 'quiz/set_email.html'),
                                 {
                                     'quiz': quiz,
                                     'answers': answers,
@@ -106,7 +107,7 @@ def quiz_result(request, id):
     if 'score' in request.session:
         request.session.pop('score')
     result = get_object_or_404(ScoreVariant, id=id)
-    return render_to_response('quiz/quiz_result.html',
+    return render_to_response('%s/%s' % (settings.TEMPLATE_THEME, 'quiz/quiz_result.html'),
                                 {
                                     'result': result,
                                     'score': score
@@ -115,7 +116,7 @@ def quiz_result(request, id):
 
 
 def quiz_finish(request):
-    return render_to_response('quiz/quiz_result.html',
+    return render_to_response('%s/%s' % (settings.TEMPLATE_THEME, 'quiz/quiz_result.html'),
                                 {},
                                 context_instance=RequestContext(request))
 

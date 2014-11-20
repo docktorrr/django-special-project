@@ -28,6 +28,8 @@ class Question(models.Model):
     def __unicode__(self):
         return self.text
 
+    def score(self):
+        return self.answers.aggregate(total=Sum('score'))['total']
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, related_name='answers', verbose_name=u'Вариант ответа')
