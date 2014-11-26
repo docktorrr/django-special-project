@@ -9,6 +9,18 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from sp.users.models import Points
 
+
+@login_required
+def profile(request):
+    from sp.contest.models import Contest, Work
+    works = Work.objects.filter()
+    return render_to_response('%s/%s' % (settings.TEMPLATE_THEME, 'users/profile.html'),
+                              {
+                                'works': works,
+                              },
+                              context_instance=RequestContext(request))
+    
+
 @login_required
 def set_extra_points(request, number, model_name, object_id):
     if request.is_ajax():

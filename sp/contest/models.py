@@ -11,6 +11,7 @@ def contest_image_path(instance, filename):
 
 # model classes
 class Contest(models.Model):
+    
     title = models.CharField(u'Название', max_length=250)
     description = models.TextField(u'Описание')
     is_active = models.BooleanField(u'Активный', default=False)
@@ -21,6 +22,9 @@ class Contest(models.Model):
     text_input = models.BooleanField(u'Ввод текста', default=True)
     video_code_input = models.BooleanField(u'Ввод кода видео', default=False)
     video_link_input = models.BooleanField(u'Ввод ссылки видео', default=False)
+    category_input = models.BooleanField(u'Ввод категории', default=False)
+    works_limit = models.IntegerField(u'Лимит работ для пользователя', default=1, help_text=u'0 - без ограничений')
+    moderator_emails = models.TextField(u'E-mail адреса модераторов', blank=True, null=True)
     stop_date = models.DateTimeField(u'Дата окончания', blank=True, null=True)
 
     class Meta:
@@ -58,7 +62,8 @@ class Work(models.Model):
     text = models.TextField(u'Описание', blank=True, null=True)
     video_code = models.TextField(u'Код видео', blank=True, null=True)
     video_link = models.CharField(u'Ссылка на видео', max_length=256, blank=True, null=True)
-
+    editor_choice = models.BooleanField(u'Выбор редакции', default=False, db_index=True)
+    
     class Meta:
         ordering = ['-date_added']
         verbose_name = u"Конкурсная работа"

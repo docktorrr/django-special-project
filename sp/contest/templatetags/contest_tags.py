@@ -6,15 +6,6 @@ from sp.contest import settings as opts
 
 register = template.Library()
 
-@register.simple_tag(takes_context=True)
-def get_avatar_url(context, user):
-    url = context['STATIC_URL'] + 'i/avatar_nophoto.jpg'
-    for sa in user.social_auth.all():
-        if sa.provider=='facebook':
-            url = 'http://graph.facebook.com/%s/picture' % sa.uid
-            break
-    return url
-
 @register.inclusion_tag('%s/%s' % (settings.TEMPLATE_THEME, 'contest/templatetags/other_works.html'), takes_context=True)
 def other_works(context, contest_id, count):
     contest = Contest.objects.get( id=contest_id )

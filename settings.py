@@ -92,6 +92,7 @@ TEMPLATE_DIRS = (
     location('templates'),
 )
 
+# Defines subdirectory of templates directory with templates for the project
 TEMPLATE_THEME = 'default'
 
 INSTALLED_APPS = (

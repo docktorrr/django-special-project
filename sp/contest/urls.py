@@ -18,4 +18,5 @@ urlpatterns = patterns('',
     url(r'^done/(\d+)/$', 'sp.contest.views.contest_done', name='contest_done'),
     url(r'^work/(\d+)/vote/$', 'sp.contest.views.vote', name='contest_vote'),
     url(r'^more_works/(\d+)/$', 'sp.contest.views.more_works', name='contest_more_works'),
+    url(r'^more_works/$', 'sp.contest.views.more_works', name='contest_more_works'),
 )

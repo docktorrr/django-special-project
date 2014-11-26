@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+import json
 from datetime import date
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
-from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -15,7 +15,6 @@ from sp.contest import settings as opts
 from sp.contest.models import Contest, Work, Vote
 from sp.contest.forms import WorkForm
 from sp.contest.decorators import active_contest_exists
-from sp.publications.models import Article
 
 
 def index(request, contest_id=None):
@@ -29,11 +28,7 @@ def index(request, contest_id=None):
 
 @active_contest_exists
 @ensure_csrf_cookie
-def list(request, contest_id=None, article_id=None):
-    article = None
-    if article_id:
-        article = get_object_or_404(Article, id=article_id)
-
+def list(request, contest_id=None):
     contest = get_object_or_404(Contest, id=(contest_id or opts.ACTIVE_CONTEST))
     works = Work.objects.filter(contest=contest, is_published=True)
     sort = None
@@ -43,6 +38,9 @@ def list(request, contest_id=None, article_id=None):
     if 'sort' in request.GET and request.GET['sort'] == 'date_asc':
         sort = request.GET['sort']
         works = works.order_by('date_added')
+    if 'sort' in request.GET and request.GET['sort'] == 'choice':
+        sort = request.GET['sort']
+        works = works.order_by('-editor_choice')
 
     paginator = Paginator(works, contest.page_size)
     page = 1
@@ -67,7 +65,6 @@ def list(request, contest_id=None, article_id=None):
                               'page': works_page,
                               'sort': sort,
                               'user_work': user_work,
-                              'article': article,
                               },
                               context_instance=RequestContext(request))
 
@@ -92,19 +89,20 @@ def contest_start(request, contest_id=None):
 @transaction.commit_on_success
 def contest_add(request, contest_id=None):
     contest = get_object_or_404(Contest, id=(contest_id or opts.ACTIVE_CONTEST))
-    if request.method=="POST":
-        form = WorkForm(contest.name_input, contest.image_input, contest.text_input, contest.video_code_input, contest.video_link_input, request.POST, request.FILES)
+    if request.method == "POST":
+        form = WorkForm(contest.name_input, contest.image_input, contest.text_input, contest.video_code_input, contest.video_link_input, contest.category_input, request.POST, request.FILES)
         if form.is_valid():
             work = form.save(commit=False)
             work.user = request.user
             work.contest = contest
             work.save()
-            return HttpResponseRedirect(reverse('contest_work', args=(work.id,)))
+            return HttpResponseRedirect(reverse('contest_done', args=(work.id,)))
     else:
-        works = Work.objects.filter(contest=contest, user=request.user)
-        if len(works) > 0:
-            return HttpResponseRedirect(reverse('contest_work', args=(works[0].id,)))
-        form = WorkForm(contest.name_input, contest.image_input, contest.text_input, contest.video_code_input, contest.video_link_input)
+        if contest.works_limit > 0:
+            works = Work.objects.filter(contest=contest, user=request.user)
+            if len(works) >= contest.works_limit:
+                return HttpResponseRedirect(reverse('contest_work', args=(works[0].id,)))
+        form = WorkForm(contest.name_input, contest.image_input, contest.text_input, contest.video_code_input, contest.video_link_input, contest.category_input)
             
     return render_to_response('%s/%s' % (settings.TEMPLATE_THEME, 'contest/contest_add.html'),
                               {
@@ -119,17 +117,21 @@ def contest_add(request, contest_id=None):
 def contest_add_ajax(request, contest_id=None):
     contest = get_object_or_404(Contest, id=(contest_id or opts.ACTIVE_CONTEST))
     if request.method=="POST" and request.is_ajax():
-        form = WorkForm(contest.name_input, contest.image_input, contest.text_input, contest.video_code_input, contest.video_link_input, request.POST, request.FILES)
+        form = WorkForm(contest.name_input, contest.image_input, contest.text_input, contest.video_code_input, contest.video_link_input, contest.category_input, request.POST, request.FILES)
         if form.is_valid():
             work = form.save(commit=False)
             work.user = request.user
             work.contest = contest
             work.save()
-            return HttpResponse(simplejson.dumps({'success':True, 'html': u'Работа добавлена', 'work': work.id}), content_type="application/json")
+            return HttpResponse(json.dumps({'success':True, 'html': u'Работа добавлена', 'work': work.id}), content_type="application/json")
         else:
-            return HttpResponse(simplejson.dumps({'success':False, 'html': u'Не заполнены данные'}), content_type="application/json")
+            return HttpResponse(json.dumps({'success':False, 'html': u'Не заполнены данные'}), content_type="application/json")
     else:
-        return HttpResponse(simplejson.dumps({'success':False, 'html': u'Не валидный запрос'}), content_type="application/json")
+        if contest.works_limit > 0:
+            works = Work.objects.filter(contest=contest, user=request.user)
+            if len(works) >= contest.works_limit:
+                return HttpResponse(json.dumps({'success':False, 'html': u'Вы уже добавили работу'}), content_type="application/json")
+        return HttpResponse(json.dumps({'success':False, 'html': u'Не валидный запрос'}), content_type="application/json")
 
 @active_contest_exists
 @ensure_csrf_cookie
@@ -165,7 +167,7 @@ def vote(request, id):
         work = get_object_or_404(Work, id=id)
         
         if work.contest.stop_date and date.today() > work.contest.stop_date:
-            return HttpResponse(simplejson.dumps({'success':False, 'html': u'Голосование закончилось', 'id': work.id}), content_type="application/json")
+            return HttpResponse(json.dumps({'success':False, 'html': u'Голосование закончилось', 'id': work.id}), content_type="application/json")
                 
         user = None
         if request.user.is_authenticated():
@@ -189,10 +191,30 @@ def vote(request, id):
         if success:
             vote = Vote(work=work, ip_address=ip, user=user)
             vote.save()
-            return HttpResponse(simplejson.dumps({'success':True, 'html': u'Ваш голос учтен', 'id': work.id}), content_type="application/json")            
+            return HttpResponse(json.dumps({'success':True, 'html': u'Ваш голос учтен', 'id': work.id}), content_type="application/json")            
         else:
-            return HttpResponse(simplejson.dumps({'success':False, 'html': error, 'id': work.id}), content_type="application/json")
+            return HttpResponse(json.dumps({'success':False, 'html': error, 'id': work.id}), content_type="application/json")
             
     else:
         return HttpResponseBadRequest()
 
+def more_works(request, category_id=None):
+    if request.is_ajax() and 'limit' in request.GET and 'offset' in request.GET:
+        contest = get_object_or_404(Contest, id=opts.ACTIVE_CONTEST)
+        limit = int(request.GET['limit'])
+        offset = int(request.GET['offset'])
+        works = Work.objects.filter(contest=contest, is_published=True)
+        if category_id:
+            works = works.filter(category=category_id)
+        works = works[offset:offset+limit]        
+        context = RequestContext(request)
+        if len(works) > 0:
+            rendered = render_to_string('%s/%s' % (settings.TEMPLATE_THEME, 'contest/photo_block.html'), {'contest': contest, 'works': works, 'STATIC_URL': context['STATIC_URL'], 'user': context['user']})
+        else:
+            rendered = ""
+        last = False
+        if len(works) < limit:
+            last = True
+        return HttpResponse(simplejson.dumps({'success':True, 'html': rendered, 'last': last}), content_type="application/json") 
+    else:
+        return HttpResponseBadRequest()
