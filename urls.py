@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^quiz/', include('sp.quiz.urls')),
     url(r'^ckeditor/', include('ckeditor.urls')),
     url(r'^articles/', include('sp.publications.urls')),
+    url(r'^users/', include('sp.users.urls')),
     url(r'^qa/', include('sp.qa.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
