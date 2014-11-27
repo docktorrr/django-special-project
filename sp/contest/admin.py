@@ -15,7 +15,7 @@ class WorkCategoryAdmin(admin.ModelAdmin):
 class VoteInline(admin.TabularInline):
     model = Vote
     extra = 0
-    readonly_fields = ('datetime', 'ip_address')
+    readonly_fields = ('user', 'datetime', 'ip_address')
 
 
 class WorkAdmin(admin.ModelAdmin):
