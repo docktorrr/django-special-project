@@ -79,6 +79,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'social_auth.middleware.SocialAuthExceptionMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -176,6 +177,7 @@ LOGGING = {
 
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
+LOGIN_ERROR_URL = '/'
 
 # Social Auth accounts settings
 FACEBOOK_APP_ID = '470477003054613'

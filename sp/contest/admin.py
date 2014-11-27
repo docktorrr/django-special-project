@@ -2,6 +2,10 @@
 from django.contrib import admin
 from sp.contest.models import *
 
+def make_published(modeladmin, request, queryset):
+    queryset.update(is_published=True)
+make_published.short_description = "Опубликовать выбранные работы"    
+
     
 class ContestAdmin(admin.ModelAdmin):
     model = Contest
@@ -22,6 +26,7 @@ class WorkAdmin(admin.ModelAdmin):
     list_display = ('user', 'fullname', 'social_profile_link', 'contest', 'date_added', 'is_published', 'count_votes')
     list_filter = ("contest",)
     inlines = [VoteInline,]
+    actions = [make_published]
 
     def fullname(self, obj):
         return obj.user.get_full_name()

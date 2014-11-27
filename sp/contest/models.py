@@ -54,7 +54,7 @@ class Work(models.Model):
     contest = models.ForeignKey(Contest, related_name='works', verbose_name=u'Конкурс')
     user = models.ForeignKey(User, related_name='works', verbose_name=u'Пользователь')
     name = models.CharField(u'Название', max_length=256, blank=True, null=True)
-    category = models.ForeignKey(WorkCategory, related_name='works', verbose_name=u'Категория', null=True)
+    category = models.ForeignKey(WorkCategory, related_name='works', verbose_name=u'Категория', null=True, blank=True)
     count_votes = models.IntegerField(u'Количество голосов', default=0)
     is_published = models.BooleanField(u'Опубликовано', default=False, db_index=True)
     date_added = models.DateTimeField(u'Дата добавления', auto_now_add=True)

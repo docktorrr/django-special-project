@@ -24,3 +24,13 @@ class WorkForm(forms.ModelForm):
     class Meta:
         model = Work
         fields = ['name', 'image', 'text', 'video_code', 'video_link', 'category']        
+        
+    def clean_image(self):
+        image = self.cleaned_data.get('image', False)
+        if image:
+            if image._size > 5*1024*1024:
+                raise forms.ValidationError(u"Изображение слишком большое (>5mb)")
+        else:
+            if self.fields['image'].required:
+                raise forms.ValidationError("Couldn't read uploaded image")        
+        return image
