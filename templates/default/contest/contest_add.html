@@ -1,11 +1,42 @@
-{% extends "inner.html" %}
+{% extends "atlant/base.html" %}
 
-{% block class %}{{ block.super }}{% if contest.id == 2 %} page-recipe{% endif %}{% endblock %}
+{% block class %}page-upload{% endblock %}
 
-{% block content_inner %}
-    {% if contest.id == 2 %}{% include 'contest/recipe_add.html' %}{% endif %}
-    {% if contest.id == 3 %}{% include 'contest/photocontest_add.html' %}{% endif %}
-{% endblock %}
+{% block menu2_class %}active{% endblock %}
 
-{% block js %}
+{% block content %}
+      <h1 class="title-with-heart">
+        Загрузка фотографии
+      </h1>
+
+      <form class="upload" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <input class="upload__name" name="name" placeholder="Введите название вашей фотографии" value="{{ form.name.value|default_if_none:'' }}">
+        {{ form.name.errors }}
+        <div class="custom-file">
+          <span class="btn btn-purple btn-file">
+            <span class="btn-label">Выбрать фотографию</span>
+            <span class="overflow">
+              <input id="photo" name="image" type="file" accept="image/jpeg,image/pjpeg,image/png"> 
+            </span>
+          </span>
+          <span class="filename">Файл не выбран</span>
+        </div><!--/ .custom-file -->
+        {{ form.image.errors }}
+        
+        <p class="upload__notice">
+          К участию допускаются фотографии, соответствующие <a href="{{ STATIC_URL }}rules.pdf" target="_blank" class="upload__notice__rules">правилам конкурса</a>,<br>
+          в формате JPEG или PNG, не менее 640 пикселей в ширину и высоту.<br>
+          Размер фотографии не должен превышать 5 Мб.
+        </p>
+
+        <div class="upload__submit">
+          Загружая фотографию, вы соглашаетесь<br>
+          с <a href="{{ STATIC_URL }}rules.pdf" target="_blank" class="upload__submit__rules">условиями участия</a> в конкурсе
+          <button type="submit" class="btn btn-purple">
+            Далее
+          </button>
+        </div><!--/ .upload__submit -->
+
+      </form><!--/ .upload -->
+
 {% endblock %}

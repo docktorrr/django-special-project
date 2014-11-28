@@ -1,22 +1,129 @@
-{% extends "inner.html" %}
+{% extends "atlant/base.html" %}
+
+{% load thumbnail %}
 
 {% block meta %}
-    {% if contest.id == 1 and article %}
-    <meta property="og:url" content="http://doliva.wmj.ru{% url contest_article 1 article.id %}" />
-    <meta property="og:title" content="Тест-драйв D'Oliva: {{ article.title }}" />
-    <meta property="og:description" content="{{ article.text|striptags|safe|truncatewords:30 }}" />
-    {% endif %}
 {% endblock %}
 
-{% block class %}{{ block.super }}{% if contest.id == 1 %} page-testdrive{% endif %}{% if contest.id == 2 %} page-recipe{% endif %}{% endblock %}
+{% block class %}page-contest{% endblock %}
 
-{% block content_inner %}
-    {% if contest.id == 1 %}{% include 'contest/testdrive.html' %}{% endif %}
-    {% if contest.id == 2 %}{% include 'contest/recipes.html' %}{% endif %}
-    {% if contest.id == 3 %}{% include 'contest/photocontest.html' %}{% endif %}
-{% endblock %}
+{% block menu2_class %}active{% endblock %}
 
-{% block js %}
-  <script src="{{ STATIC_URL }}js/jquery.form.js"></script>
-  <script src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
+{% block content %}
+      <div class="information">
+        <h2 class="information__title">Мой красивый</h2>
+        <h3 class="information__subtitle">Мой красивый</h3>
+        <p class="information__description">
+          Ваш холодильник так красив, что его можно<br>
+          выставлять в музее? Примите участие<br>
+          в конкурсе на самый красивый холодильник<br>
+          и выиграйте замечательные призы!
+        </p>
+        <div class="information__btns">        
+          {% if user.is_authenticated %}
+          <a href="{% url contest_add %}" class="btn btn-purple">
+            Загрузить фото вашего холодильника
+          </a>
+          {% else %}
+          <button class="btn btn-purple btn-openloginlb">
+            Загрузить фото вашего холодильника
+          </button>        
+          {% endif %}
+          <br>
+          <a href="{{ STATIC_URL }}rules.pdf" target="blank" class="rules-link">
+            Правила конкурса
+          </a>
+        </div>
+        <span class="trophy information__trophy"></span>
+        <div class="information__fridge">
+          <h5 class="information__fridge__title">
+            Откройте<br>
+            «Атлант»,
+          </h5>
+          <h6  class="information__fridge__subtitle">
+            посмотрите,<br>
+            что внутри!
+          </h6>
+          <a href="#" class="information__fridge__link">
+            Заглянуть
+          </a>
+        </div><!--/ .information__fridge -->
+      </div><!--/ .information -->
+
+      <div class="works-filter">
+        <a href="?sort=votes#posts" class="works-filter__link">
+          Популярные
+        </a>
+        <span class="works-filter__delemiter {% if sort == 'votes' %}active{% endif %}">
+          /
+        </span>
+        <a href="?#posts" class="works-filter__link active {% if not sort %}active{% endif %}">
+          Новые
+        </a>
+      </div><!--/ .works-filter -->
+
+      <a name="posts"></a>
+      <div class="works">
+        <div class="works__line">
+
+          {% for work in page.object_list %}
+          {% if forloop.counter == 5 %}
+        </div><!--/ .works__line -->
+        <div class="works__line">
+          {% endif %}
+          <div class="work">
+            <div class="work__user">
+              <div class="work__user__avatar-wrap">
+                {% if work.user_avatar %}
+                    {% thumbnail work.user_avatar "46x52" crop="center" as im %}
+                    <img src="{{ im.url }}" class="work__user__avatar">
+                    {% endthumbnail %}
+                {% else %}
+                    <img src="{{ STATIC_URL }}images/user-avatar.jpg" class="work__user__avatar">
+                {% endif %}              
+              </div>
+              <h6 class="work__user__name">
+                {{ work.get_full_name|wordwrap:"1"|linebreaksbr }}
+              </h6>
+              <time datetime="{{ work.date_added|date:'Y-m-d' }}">
+                {{ work.date_added|date:'j E' }}
+              </time>
+            </div><!--/ .work__user -->
+            <a href="{% url contest_work work.id %}" class="work__pic-link">
+              {% thumbnail work.image "206x206" crop="center 15%" as im %}
+              <img src="{{ im.url }}" class="work__pic">
+              {% endthumbnail %}
+            </a>
+            <p class="work__description">
+              <a href="{% url contest_work work.id %}" class="work__description__link">
+              {{ work.name }}
+              </a>
+            </p>
+            <div class="work__btns">
+              <button type="button" class="btn btn-purple btn-like {% if user.is_authenticated %}vote-button{% else %}btn-openloginlb{% endif %}" data-url="{% url contest_vote work.id %}">
+                <span class="btn-like__label">Нравится!</span>
+                <span class="btn-like__qty">{% if work.count_votes %}+{% endif %}<span id="vote-count-{{work.id}}" class="vote-count-{{work.id}}">{{ work.count_votes }}</span></span>
+              </button>
+            </div>
+          </div><!--/ .work -->
+          {% endfor %}
+
+        </div><!--/ .works__line -->
+
+      </div><!--/ .works -->
+
+      {% if page.paginator.num_pages > 1 %}
+      <div class="paging">
+        {% if page.has_previous %}
+        <a href="?page={{ page.previous_page_number }}{% if sort %}&sort={{sort}}{% endif %}" class="paging__link paging__link-prev">«</a>
+        {% endif %}
+        {% for n in page.paginator.page_range %}        
+        <a href="?page={{n}}{% if sort %}&sort={{sort}}{% endif %}" class="paging__link {% if  n == page.number %}paging__link-current{% endif %}">{{ n }}</a>
+        {% endfor %}
+        {% if page.has_next %}
+        <a href="?page={{ page.next_page_number }}{% if sort %}&sort={{sort}}{% endif %}" class="paging__link paging__link-next">»</a>
+        {% endif %}
+      </div><!--/ .paging -->
+      {% endif %}
+
 {% endblock %}

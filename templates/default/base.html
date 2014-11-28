@@ -1,63 +1,144 @@
-<!DOCTYPE html>
+{% load thumbnail %}<!DOCTYPE html>
 <!--[if IE 8]><html class="ie8"><![endif]-->
 <!--[if IE 9]><html class="ie9"><![endif]-->  
 <!--[if !IE]><!--><html><!--<![endif]-->  
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Спецпроект D'oliva - Всегда в гармонии с тобой</title>
-  <meta name="viewport" content="width=device-width">
-  <link rel="shortcut icon" href="{{ STATIC_URL }}i/favicon_doliva.ico" type="image/x-icon" />  
   {% block meta %}
   {% endblock %}
+  <title>Спецпроект ATLANT на Passion.ru</title>
+  <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="{{ STATIC_URL }}css/fonts.css">
-  <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">  
   <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <script>window.html5 || document.write('<script src="{{ STATIC_URL }}js/html5.js"><\/script>')</script>
 
     <link rel="stylesheet" href="{{ STATIC_URL }}css/ie8.css">
   <![endif]-->
+  {% block css %}
+  {% endblock %}  
 </head>
 
-<body class="{% block class %}page-main{% endblock %}">
-	{% include 'default/social_auth.html' %}
-	{% block content %}
-	
-	{% endblock %}
+<body class="{% block class %}{% endblock %}">
+
+  <div class="page-bg_wrap">
+    <div class="page-bg"></div> 
+  </div>
+
+  {% include 'atlant/social_auth.html' %}
+
+  <header id="header">
+    <div class="b-wrap960">
+
+      <a href="{% url index %}" class="atlant-logo"></a>
+
+      <nav class="menu">
+        <a href="{% url product %}" class="menu__item {% block menu1_class %}{% endblock %}">
+          <span class="menu__item__label">Умный холодильник</span>
+        </a>
+        <a href="{% url contest_list %}" class="menu__item {% block menu2_class %}{% endblock %}">
+          <span class="menu__item__label">Фотоконкурс</span>
+        </a>
+      </nav>
+
+      <div class="header__auth {% if not user.is_authenticated %}no-auth{% endif %}">
+        
+        {% if not user.is_authenticated %}
+        <button class="btn-auth" type="button">Войти</button>
+        {% else %}
+        <div class="user-bar">
+          <div class="user-bar__avatar-wrap">
+            {% if profile.avatar %}
+            {% thumbnail profile.avatar "46x52" crop="center" as im %}
+                <img src="{{ im.url }}" class="user-bar__avatar">
+            {% endthumbnail %}
+            {% else %}
+                <img src="{{ STATIC_URL }}images/user-avatar.jpg" class="user-bar__avatar">
+            {% endif %}            
+          </div>
+          <div class="user-bar_inner">
+            <h6 class="user-bar__name">
+              {% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user }}{% endif %}
+            </h6>
+            <div class="user-info__btns">
+              <a class="user-bar__btn">
+                Загруженных фото: <strong>{{ user.works.count }}</strong>
+              </a>
+              <a href="{% url logout %}" class="user-bar__btn">
+                Выход
+              </a>
+            </div><!--/ .user-info__btns -->
+          </div><!--/ .user-bar_inner -->
+        </div><!--/ .user-bar -->
+        {% endif %}
+      </div><!--/ .header__auth -->
+
+      <ul class="header__shares">
+        <li class="header__shares-title">
+          Расскажите —
+        </li>
+        <li class="header__share">
+          <a href="#" class="vk"></a>
+        </li>
+        <li class="header__share">
+          <a href="#" class="fb"></a>
+        </li>
+        <li class="header__share">
+          <a href="#" class="tw"></a>
+        </li>
+        <li class="header__share">
+          <a href="#" class="ok"></a>
+        </li>
+      </ul><!--/ .header__shares -->
+
+    </div><!--/ .b-wrap960 -->
+  </header><!--/ #header -->
+
+  <div class="content">
+    <div class="b-wrap960">
+
+      {% block content %}{% endblock %}
+
+      <div class="clear"></div>
+    </div><!--/ .b-wrap960 -->
+  </div><!--/ .content -->
+
+  <footer id="footer">
+    <div class="b-wrap960">
+
+      <div class="copright-wrap">
+        <a class="ft-passion-logo" href="http://www.passion.ru" target="_blank"></a>
+        <p class="copyright">
+          По всем вопросам, связанным с проведением конкурса, пишите на <a href="mailto:special@webprimegroup.ru?subject=Вопрос%20по%20поводу%20конкурса%20ITLV" class="mailto">special@webprimegroup.ru</a>
+          <br>
+          <br>
+          © 2001-2014 PASSION.RU.
+          <br>
+          © 2014 ООО «Миланор» (ОГРН 1055006329179).
+          <br>
+          Все права защищены.
+          <br>
+          Свидетельство о регистрации электронного СМИ номер ЭЛ№ФС-77-54173 от 17.05.2013 г.
+          <br>
+          Сайт может содержать контент, запрещенный для просмотра лицам до 16 лет.
+        </p>
+      </div><!--/ .copright-wrap -->
+
+    </div><!--/ .b-wrap960 -->
+  </footer><!--/ #footer-->
+
   <!--js-->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"><\/script>')</script>
   <script src="{{ STATIC_URL }}js/main.js"></script>
+  <script src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
   <script src="{{ STATIC_URL }}js/contest.js"></script>
   {% block js %}
-  {% endblock %}
-  
-<!-- Google Analytics counter WMJ -->
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-210145-2']);
-  _gaq.push(['_setDomainName', '.wmj.ru']);
-  _gaq.push(['_trackPageview']);
+  {% endblock %}  
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
-<!-- /Google Analytics counter -->  
-<!-- tns-counter.ru --> 
-<script language="JavaScript" type="text/javascript"> 
-	var img = new Image();
-	img.src = 'http://www.tns-counter.ru/V13a***R>' + document.referrer.replace(/\*/g,'%2a') + '*wmj_ru/ru/UTF-8/tmsec=wmj_total/' + Math.round(Math.random() * 1000000000);
-</script> 
-<noscript> 
-	<img src="http://www.tns-counter.ru/V13a****wmj_ru/ru/UTF-8/tmsec=wmj_total/" width="1" height="1" alt="">
-</noscript> 
-<!--/ tns-counter.ru -->
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">(function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter7399345 = new Ya.Metrika({id:7399345, webvisor:false, clickmap:false, trackLinks:true, accurateTrackBounce:true}); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="//mc.yandex.ru/watch/7399345" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
+  {% include 'atlant/counters.html' %}
+  
 </body>
 </html>

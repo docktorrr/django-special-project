@@ -1,0 +1,28 @@
+{% extends "atlant/base.html" %}
+
+{% load thumbnail %}
+
+{% block class %}page-onmoderate{% endblock %}
+
+{% block menu2_class %}active{% endblock %}
+
+{% block content %}
+      <h1 class="title-with-heart">
+        Готово!
+      </h1>
+
+      <div class="moderation-info">
+        <h6>Ваша фотография успешно загружена и отправлена на модерацию!</h6>
+        <p>
+          Ниже вы можете посмотреть, как она будет выглядеть после проверки и размещения<br>
+          в галерее. Сейчас вы можете ознакомиться с <a href="{% url contest_list %}">другими фотографиями</a> в галерее и узнать, <a href="{% url product %}">как холодильник может быть умным и красивым!</a>
+        </p>
+      </div>
+
+      <div class="moderation-work">
+        <h6 class="moderation-work__title">{{ work.name }}</h6>
+        {% thumbnail work.image "600x600" as im %}
+        <img class="moderation-work__img" src="{{ im.url }}">
+        {% endthumbnail %}
+      </div>
+{% endblock %}

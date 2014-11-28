@@ -15,7 +15,7 @@ def index(request):
 
 def product(request):
     return render_to_response('%s/%s' % (settings.TEMPLATE_THEME, 'product.html'),
-                              {'articles': articles},
+                              {},
                               context_instance=RequestContext(request))
 
 def login(request):

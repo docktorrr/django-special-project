@@ -4,23 +4,23 @@
         <div class="lb login">
           <button class="lb__close" title="Закрыть" type="button"></button>
           <h5 class="lb__title">
-            Авторизуйтесь, используя<br>
-            ваш профиль в соцсети:
+            Авторизуйтесь
           </h5>
+          <h6>
+            используя ваш профиль<br>
+            в одной из соцсетей:
+          </h6>
           <div class="social-auth">
-            <a href="{% url socialauth_begin 'vk-oauth' %}" class="auth-via vk" title="вконтакте"></a>
-            <a href="{% url socialauth_begin 'odnoklassniki' %}" class="auth-via ok" title="одноклассники"></a>
-            <a href="{% url socialauth_begin 'twitter' %}" class="auth-via tw" title="twitter"></a>
-            <a href="{% url socialauth_begin 'facebook' %}" class="auth-via fb" title="facebook"></a>
-            <a href="{% url socialauth_begin 'google-oauth2' %}" class="auth-via gp" title="google+"></a>
-            {% comment %}
-            <a href="{% url socialauth_begin 'mailru-oauth2' %}" class="auth-via mr" title="мой мир"></a>
-            {% endcomment%}
+            <a href="{% url socialauth_begin 'vk-oauth' %}?next={{ request.get_full_path }}" class="auth-via vk" title="вконтакте"></a>
+            <a href="{% url socialauth_begin 'facebook' %}?next={{ request.get_full_path }}" class="auth-via fb" title="facebook"></a>
+            <a href="{% url socialauth_begin 'odnoklassniki' %}?next={{ request.get_full_path }}" class="auth-via ok" title="одноклассники"></a>
+            <a href="{% url socialauth_begin 'twitter' %}?next={{ request.get_full_path }}" class="auth-via tw" title="twitter"></a>
+            <a href="{% url socialauth_begin 'google-oauth2' %}?next={{ request.get_full_path }}" class="auth-via gp" title="google+"></a>
           </div>
           <p class="lb__remark">
-            После авторизации ты<br>
-            сможешь оставить свой совет,<br>
-            или комментарий.
+            После авторизации вы сможете<br>
+            проголосовать или добавить свою<br>
+            фотографию
           </p>
         </div><!--/.lb.login-->
 

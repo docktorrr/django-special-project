@@ -1,39 +1,70 @@
-{% extends "inner.html" %}
+{% extends "atlant/base.html" %}
 
 {% load thumbnail %}
 
 {% block meta %}
-    <meta property="og:url" content="http://doliva.wmj.ru{% url contest_work work.id %}" />
-    {% if contest.id == 1 %}
-        <meta property="og:title" content="Мой комментарий в конкурсе D'Oliva" />
-        <meta property="og:description" content="{{ work.text|safe|truncatewords:20 }}" />
-        <meta property="og:image" content="http://doliva.wmj.ru/public/static/images/project-image.jpg" />
-    {% endif %}
-    {% if contest.id == 2 %}
-        <meta property="og:title" content="{{ work.name }} в конкурсе D'Oliva" />
-        <meta property="og:description" content="Проголосуйте за мой рецепт на конкурсе D'Oliva!" />
-        {% thumbnail work.image "200x200" crop="center" as im %}
-        <meta property="og:image" content="http://doliva.wmj.ru{{im.url}}" />
-        {% endthumbnail %}
-    {% endif %}
-    {% if contest.id == 3 %}
-        <meta property="og:title" content="{{ work.name }} в конкурсе D'Oliva" />
-        <meta property="og:description" content="Проголосуйте за моё selfi на конкурсе D'Oliva!" />
-        {% thumbnail work.image "200x200" crop="center" as im %}
-        <meta property="og:image" content="http://doliva.wmj.ru{{im.url}}" />
-        {% endthumbnail %}
-    {% endif %}
+  <meta property="og:url" content="http://atlant.passion.ru{% url contest_work work.id %}" />
+  <meta property="og:title" content="Моя работа на Фотоконкурс от Atlant" />
+  <meta property="og:description" content="Моя работа на Фотоконкурс от Atlant: {{ work.name }}." />
+  {% thumbnail work.image "600x600" as im %}
+  <meta property="og:image" content="http://atlant.passion.ru{{ im.url }}" />  
+  {% endthumbnail %}
 {% endblock %}
 
-{% block class %}{{ block.super }}{% if contest.id == 2 %} page-recipe{% endif %}{% endblock %}
+{% block class %}page-work{% endblock %}
 
-{% block content_inner %}
-    {% if contest.id == 1 %}{% include 'contest/comment_work.html' %}{% endif %}
-    {% if contest.id == 2 %}{% include 'contest/recipe_work.html' %}{% endif %}
-    {% if contest.id == 3 %}{% include 'contest/photocontest_work.html' %}{% endif %}
-{% endblock %}
+{% block menu2_class %}active{% endblock %}
 
-{% block js %}
-  <script src="{{ STATIC_URL }}js/jquery.form.js"></script>
-  <script src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
+{% block content %}
+      <a href="{% url contest_list %}" class="back2gallery">
+        Вернуться<br>
+        к галерее
+      </a>
+
+      <div class="work-card">
+        <div class="work-card__user">
+          <div class="work-card__user__avatar-wrap">
+            {% if work.user_avatar %}
+                {% thumbnail work.user_avatar "46x52" crop="center" as im %}
+                <img src="{{ im.url }}" class="work-card__user__avatar">
+                {% endthumbnail %}
+            {% else %}
+                <img src="{{ STATIC_URL }}images/user-avatar.jpg" class="work-card__user__avatar">
+            {% endif %}                        
+          </div>
+          <h6 class="work-card__user__name">
+            {{ work.get_full_name|wordwrap:"1"|linebreaksbr }}
+          </h6>
+          <time datetime="{{ work.date_added|date:'Y-m-d' }}">
+            {{ work.date_added|date:'j E' }}
+          </time>
+        </div>
+        {% thumbnail work.image "600x600" as im %}
+        <img class="work-card__pic" src="{{ im.url }}">
+        {% endthumbnail %}
+        <p class="work-card__description">
+          {{ work.name }}
+        </p>
+        <div class="work-card__btns">
+          <ul class="work-card__shares">
+            <li class="work-card__share">
+              <a href="http://vk.com/share.php?url=http://atlant.passion.ru{% url contest_work work.id %}" class="vk" target="_blank"></a>
+            </li>
+            <li class="work-card__share">
+              <a href="http://www.facebook.com/sharer.php?u=http://atlant.passion.ru{% url contest_work work.id %}" class="fb" target="_blank"></a>
+            </li>
+            <li class="work-card__share">
+              <a href="https://twitter.com/intent/tweet?url=http://atlant.passion.ru{% url contest_work work.id %}&text=Моя%20работа%20на%20Фотоконкурс%20от%20Atlant" class="tw" target="_blank"></a>
+            </li>
+            <li class="work-card__share">
+              <a href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&amp;st.s=1&amp;st._surl=http://atlant.passion.ru{% url contest_work work.id %}" class="ok" target="_blank"></a>
+            </li>
+          </ul><!--/ .work-card__shares -->
+          <button type="button" class="btn btn-purple btn-like {% if user.is_authenticated %}vote-button{% else %}btn-openloginlb{% endif %}" data-url="{% url contest_vote work.id %}">
+            <span class="btn-like__label">Нравится!</span>
+            <span class="btn-like__qty">{% if work.count_votes %}+{% endif %}<span id="vote-count-{{work.id}}" class="vote-count-{{work.id}}">{{ work.count_votes }}</span></span>
+          </button>
+        </div><!--/ .work-card__btns -->
+      </div><!--/ .work-card -->
+
 {% endblock %}

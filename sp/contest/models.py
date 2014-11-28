@@ -81,6 +81,20 @@ class Work(models.Model):
             data[item.field.name] = item.value
         return data
         
+    def get_full_name(self):
+        full_name = self.user.get_full_name()
+        if full_name:
+            return full_name
+        return '%s' % self.user
+        
+    def user_avatar(self):
+        if not hasattr(self, '_user_avatar'):
+            profile = self.user.get_profile()
+            if profile and profile.avatar:
+                self._user_avatar = profile.avatar
+            else:
+                self._user_avatar = None
+        self._user_avatar
     
 class Vote(models.Model):
     work = models.ForeignKey(Work, related_name='votes')
