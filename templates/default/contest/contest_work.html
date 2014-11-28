@@ -25,11 +25,11 @@
         <div class="work-card__user">
           <div class="work-card__user__avatar-wrap">
             {% if work.user_avatar %}
-                {% thumbnail work.user_avatar "46x52" crop="center" as im %}
+                {% thumbnail work.user_avatar "58x66" crop="center" as im %}
                 <img src="{{ im.url }}" class="work-card__user__avatar">
                 {% endthumbnail %}
             {% else %}
-                <img src="{{ STATIC_URL }}images/user-avatar.jpg" class="work-card__user__avatar">
+                <img src="{{ STATIC_URL }}images/user-avatar.jpg" width="58" height="66" class="work-card__user__avatar">
             {% endif %}                        
           </div>
           <h6 class="work-card__user__name">

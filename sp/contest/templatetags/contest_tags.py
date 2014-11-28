@@ -17,7 +17,10 @@ def count_works(contest_id):
     return Work.objects.filter(contest__id=contest_id, is_published=True).count()
 
 @register.inclusion_tag('%s/%s' % (settings.TEMPLATE_THEME, 'contest/photo_block.html'), takes_context=True)
-def photo_block(context, category_id, count):
+def photo_block(context, count, category_id=None):
     contest = Contest.objects.get( id=opts.ACTIVE_CONTEST )
-    works = Work.objects.filter(contest=contest, is_published=True, category=category_id)[:count]
+    works = Work.objects.filter(contest=contest, is_published=True)
+    if category_id:
+        works = works.filter(category=category_id)
+    works = works[:count]
     return {'contest': contest, 'works': works, 'STATIC_URL': context['STATIC_URL'], 'user': context['user']}

@@ -1,6 +1,6 @@
 {% extends "atlant/base.html" %}
 
-{% load thumbnail %}
+{% load thumbnail contest_tags %}
 
 {% block class %}page-main{% endblock %}
 
@@ -52,136 +52,7 @@
         
         <div class="slider-wrap">
             <div class="slider-inner">
-                <ul class="slides">
-
-                    <li class="slide-wrap">
-                      <div class="slide">
-                        <div class="slide__user">
-                          <div class="slide__user__avatar-wrap">
-                            <img src="{{ STATIC_URL }}images/user-avatar.jpg" class="slide__user__avatar">
-                          </div>
-                          <h6 class="slide__user__name">
-                            Екатерина<br>
-                            Констатинопольская
-                          </h6>
-                          <time datetime="2014-12-16">
-                            16 декабря
-                          </time>
-                        </div><!--/ .slide__user -->
-                        <a href="/work.html" class="slide__pic-link">
-                          <img src="{{ STATIC_URL }}images/work-thumb.jpg" class="slide__pic">
-                        </a>
-                        <p class="slide__description">
-                          <a href="#" class="slide__description__link">
-                          Мой супер холодильник<br>
-                          и вкусняшки!
-                          </a>
-                        </p>
-                      </div><!--/ .slide -->
-                    </li><!--/ .slide-wrap -->
-
-                    <li class="slide-wrap">
-                      <div class="slide">
-                        <div class="slide__user">
-                          <div class="slide__user__avatar-wrap">
-                            <img src="{{ STATIC_URL }}images/user-avatar.jpg" class="slide__user__avatar">
-                          </div>
-                          <h6 class="slide__user__name">
-                            Екатерина<br>
-                            Констатинопольская
-                          </h6>
-                          <time datetime="2014-12-16">
-                            16 декабря
-                          </time>
-                        </div><!--/ .slide__user -->
-                        <a href="/work.html" class="slide__pic-link">
-                          <img src="{{ STATIC_URL }}images/work-thumb.jpg" class="slide__pic">
-                        </a>
-                        <p class="slide__description">
-                          <a href="#" class="slide__description__link">
-                          Мой супер холодильник<br>
-                          и вкусняшки!
-                          </a>
-                        </p>
-                      </div><!--/ .slide -->
-                    </li><!--/ .slide-wrap -->
-
-                    <li class="slide-wrap">
-                      <div class="slide">
-                        <div class="slide__user">
-                          <div class="slide__user__avatar-wrap">
-                            <img src="{{ STATIC_URL }}images/user-avatar.jpg" class="slide__user__avatar">
-                          </div>
-                          <h6 class="slide__user__name">
-                            Andrey<br>
-                            Semshov
-                          </h6>
-                          <time datetime="2014-12-14">
-                            14 декабря
-                          </time>
-                        </div><!--/ .slide__user -->
-                        <a href="/work.html" class="slide__pic-link">
-                          <img src="{{ STATIC_URL }}images/work-thumb.jpg" class="slide__pic">
-                        </a>
-                        <p class="slide__description">
-                          <a href="#" class="slide__description__link">
-                          Мой супер холодильник<br>
-                          и вкусняшки!
-                          </a>
-                        </p>
-                      </div><!--/ .slide -->
-                    </li><!--/ .slide-wrap -->
-
-                    <li class="slide-wrap">
-                      <div class="slide">
-                        <div class="slide__user">
-                          <div class="slide__user__avatar-wrap">
-                            <img src="{{ STATIC_URL }}images/user-avatar.jpg" class="slide__user__avatar">
-                          </div>
-                          <h6 class="slide__user__name">
-                            Andrey<br>
-                            Semshov
-                          </h6>
-                          <time datetime="2014-12-14">
-                            14 декабря
-                          </time>
-                        </div><!--/ .slide__user -->
-                        <a href="/work.html" class="slide__pic-link">
-                          <img src="{{ STATIC_URL }}images/work-thumb.jpg" class="slide__pic">
-                        </a>
-                        <p class="slide__description">
-                          <a href="#" class="slide__description__link">
-                          Мой супер холодильник<br>
-                          и вкусняшки!
-                          </a>
-                        </p>
-                      </div><!--/ .slide -->
-                    </li><!--/ .slide-wrap -->
-
-                    <li class="slide-wrap">
-                      <div class="slide">
-                        <div class="slide__user">
-                          <div class="slide__user__avatar-wrap">
-                            <img src="{{ STATIC_URL }}images/user-avatar.jpg" class="slide__user__avatar">
-                          </div>
-                          <h6 class="slide__user__name">
-                            Andrey<br>
-                            Semshov
-                          </h6>
-                          <time datetime="2014-12-31">
-                            31 декабря
-                          </time>
-                        </div><!--/ .slide__user -->
-                        <p class="slide__description">
-                          <a href="#" class="slide__description__link">
-                          Мой супер холодильник<br>
-                          и вкусняшки!
-                          </a>
-                        </p>
-                      </div><!--/ .slide -->
-                    </li><!--/ .slide-wrap -->
-
-                </ul><!--/ .slides -->
+            {% photo_block count=6 %}
             </div><!--/ .slider-inner -->
         </div><!--/ .slider-wrap -->
         

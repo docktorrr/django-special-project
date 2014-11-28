@@ -6,6 +6,10 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   {% block meta %}
+  <meta property="og:url" content="http://atlant.passion.ru" />
+  <meta property="og:title" content="Фотоконкурс Таланты для Атланта на Passion.ru" />
+  <meta property="og:description" content="Примите участие в фотоконкурсе и выиграйте призы!" />
+  <meta property="og:image" content="http://atlant.passion.ru/public/static/i/trophies.png" />  
   {% endblock %}
   <title>Спецпроект ATLANT на Passion.ru</title>
   <meta name="viewport" content="width=device-width">
@@ -50,6 +54,7 @@
         {% else %}
         <div class="user-bar">
           <div class="user-bar__avatar-wrap">
+            {% with user.get_profile as profile %}
             {% if profile.avatar %}
             {% thumbnail profile.avatar "46x52" crop="center" as im %}
                 <img src="{{ im.url }}" class="user-bar__avatar">
@@ -57,6 +62,7 @@
             {% else %}
                 <img src="{{ STATIC_URL }}images/user-avatar.jpg" class="user-bar__avatar">
             {% endif %}            
+            {% endwith %}
           </div>
           <div class="user-bar_inner">
             <h6 class="user-bar__name">
@@ -80,16 +86,16 @@
           Расскажите —
         </li>
         <li class="header__share">
-          <a href="#" class="vk"></a>
+          <a href="http://vk.com/share.php?url=http://atlant.passion.ru" class="vk" target="_blank"></a>
         </li>
         <li class="header__share">
-          <a href="#" class="fb"></a>
+          <a href="http://www.facebook.com/sharer.php?u=http://atlant.passion.ru" class="fb" target="_blank"></a>
         </li>
         <li class="header__share">
-          <a href="#" class="tw"></a>
+          <a href="https://twitter.com/intent/tweet?url=http://atlant.passion.ru&text=Фотоконкурс%20Таланты%20для%20Атланта%20на%20Passion.ru" class="tw" target="_blank"></a>
         </li>
         <li class="header__share">
-          <a href="#" class="ok"></a>
+          <a href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&amp;st.s=1&amp;st._surl=http://atlant.passion.ru" class="ok" target="_blank"></a>
         </li>
       </ul><!--/ .header__shares -->
 

@@ -2,6 +2,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.encoding import force_unicode
+from django.template.loader import render_to_string
+from django.conf import settings
+from django.core.mail import EmailMessage
 from sp.utils import transliterate
 
 # utils
@@ -94,7 +97,24 @@ class Work(models.Model):
                 self._user_avatar = profile.avatar
             else:
                 self._user_avatar = None
-        self._user_avatar
+        return self._user_avatar
+    
+def send_email_notification(sender, instance, **kwargs):
+    if kwargs['created']:
+        try:
+            contest = instance.contest
+            emails = contest.moderator_emails.split()
+            if len(emails) > 0:
+                body = render_to_string('%s/%s' % (settings.TEMPLATE_THEME, 'contest/email_notification.html'), {'work': instance})
+                msg = EmailMessage(u"Новая работа на конкурс %s" % contest.title, body, settings.FROM_EMAIL, emails)
+                msg.content_subtype = "html"
+                msg.encoding = "UTF-8"
+                msg.send(fail_silently=True)
+        except:
+            pass
+
+models.signals.post_save.connect(send_email_notification, sender=Work) 
+
     
 class Vote(models.Model):
     work = models.ForeignKey(Work, related_name='votes')

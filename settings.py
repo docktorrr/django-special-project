@@ -175,6 +175,8 @@ LOGGING = {
     }
 }
 
+FROM_EMAIL = 'special@webprimegroup.ru'
+
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL = '/'

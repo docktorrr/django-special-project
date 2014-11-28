@@ -1,0 +1,38 @@
+{% load thumbnail %}
+<ul class="slides">
+
+    {% for work in works %}
+    <li class="slide-wrap">
+      <div class="slide">
+        <div class="slide__user">
+          <div class="slide__user__avatar-wrap">
+            {% if work.user_avatar %}
+                {% thumbnail work.user_avatar "46x52" crop="center" as im %}
+                <img src="{{ im.url }}" class="slide__user__avatar">
+                {% endthumbnail %}
+            {% else %}
+                <img src="{{ STATIC_URL }}images/user-avatar.jpg" class="slide__user__avatar">
+            {% endif %}                        
+          </div>
+          <h6 class="slide__user__name">
+            {{ work.get_full_name|wordwrap:"1"|linebreaksbr }}
+          </h6>
+          <time datetime="{{ work.date_added|date:'Y-m-d' }}">
+            {{ work.date_added|date:'j E' }}
+          </time>
+        </div><!--/ .slide__user -->
+        <a href="{% url contest_work work.id %}" class="slide__pic-link">
+         {% thumbnail work.image "206x206" crop="center 15%" as im %}
+          <img src="{{ im.url }}" class="slide__pic">
+         {% endthumbnail %}
+        </a>
+        <p class="slide__description">
+          <a href="{% url contest_work work.id %}" class="slide__description__link">
+          {{ work.name }}
+          </a>
+        </p>
+      </div><!--/ .slide -->
+    </li><!--/ .slide-wrap -->
+    {% endfor %}
+    
+</ul><!--/ .slides -->
