@@ -184,6 +184,9 @@ def vote(request, id):
             if not user:
                 success = False
                 error = u'Вы должны быть авторизованы'
+            if work.user == user:
+                success = False
+                error = u'Вы не можете голосовать за свою работу'            
             if Vote.objects.filter(work=work, user=user).count() > 0:
                 success = False
                 error = u'Вы уже голосовали'
