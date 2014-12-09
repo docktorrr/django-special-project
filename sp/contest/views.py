@@ -220,6 +220,6 @@ def more_works(request, category_id=None):
         last = False
         if len(works) < limit:
             last = True
-        return HttpResponse(simplejson.dumps({'success':True, 'html': rendered, 'last': last}), content_type="application/json") 
+        return HttpResponse(json.dumps({'success':True, 'html': rendered, 'last': last}), content_type="application/json") 
     else:
         return HttpResponseBadRequest()

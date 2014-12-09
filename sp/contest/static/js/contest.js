@@ -8,10 +8,7 @@ $(function() {
         $('form.ajax-form').ajaxForm({beforeSend: setCSRFToken, success: addPostCallback, dataType: 'json'});
     }
     $('.send-post-button').click(function(){
-        if($('#rules').is(':checked'))
-            $('#post-form').submit();
-        else
-            alert("Вы должны согласиться с правилами конкурса");
+        $('#post-form').submit();
         return false;
     });
     
@@ -20,6 +17,20 @@ $(function() {
         $('.posting__before').hide();
         $('.posting__form').show();
         return false;
+    });
+    
+    $('.more-works').on('click', function(){
+        var that = $(this);
+        var offset = $('.work-item').length;
+        var limit = that.attr('data-limit');
+        $.ajax({
+            url: that.attr('data-url'),
+            data: {'limit': limit, 'offset': offset}
+        }).done(function(data) {
+            $('.works-list').append(data.html);
+            if(data.last)
+                that.hide();
+        });        
     });
 });
 
@@ -54,6 +65,7 @@ function addPostCallback(responseText, statusText, xhr, $form) {
         $('.posting__form').hide();
         $('.posting__after').show();
     } else {
-        alert(responseText.html);
+        $('.posting__form').hide();
+        $('.posting__fail').show();
     }
 }
