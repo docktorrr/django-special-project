@@ -4,7 +4,6 @@ from datetime import date
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
-from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -13,26 +12,16 @@ from django.contrib.auth import logout as logout_user
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.conf import settings
 from sp.contest import settings as opts
-from sp.contest.models import Contest, Work, Vote, Tag
+from sp.contest.models import Contest, Work, Vote
 from sp.contest.forms import WorkForm
 from sp.contest.decorators import active_contest_exists
 
 
-@active_contest_exists
-@ensure_csrf_cookie
 def index(request, contest_id=None):
     contest = get_object_or_404(Contest, id=(contest_id or opts.ACTIVE_CONTEST))
-    works = Work.objects.filter(contest=contest, is_published=True)
-    filter_tags = request.POST.getlist('tags')
-    if len(filter_tags) > 0:
-        works = works.filter(tags__in=filter_tags)
-    works = works[:contest.page_size]
     return render_to_response('%s/%s' % (settings.TEMPLATE_THEME, 'contest/index.html'),
                               {
                               'contest': contest,
-                              'works': works,
-                              'tags': Tag.objects.all(),
-                              'filter_tags': filter_tags,
                               },
                               context_instance=RequestContext(request))
 
@@ -76,7 +65,6 @@ def list(request, contest_id=None):
                               'page': works_page,
                               'sort': sort,
                               'user_work': user_work,
-                              'tags': Tag.objects.all(),
                               },
                               context_instance=RequestContext(request))
 
@@ -108,6 +96,7 @@ def contest_add(request, contest_id=None):
             work.user = request.user
             work.contest = contest
             work.save()
+            form.save_m2m()
             return HttpResponseRedirect(reverse('contest_done', args=(work.id,)))
     else:
         if contest.works_limit > 0:

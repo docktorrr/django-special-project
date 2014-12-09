@@ -27,7 +27,7 @@ $(function() {
             url: that.attr('data-url'),
             data: {'limit': limit, 'offset': offset}
         }).done(function(data) {
-            $('.work-list').append(data.html);
+            $('.works-list').append(data.html);
             if(data.last)
                 that.hide();
         });        
