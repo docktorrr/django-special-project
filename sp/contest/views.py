@@ -4,6 +4,7 @@ from datetime import date
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
+from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -12,7 +13,7 @@ from django.contrib.auth import logout as logout_user
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.conf import settings
 from sp.contest import settings as opts
-from sp.contest.models import Contest, Work, Vote
+from sp.contest.models import Contest, Work, Vote, Tag
 from sp.contest.forms import WorkForm
 from sp.contest.decorators import active_contest_exists
 
