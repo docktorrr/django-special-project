@@ -96,6 +96,7 @@ def contest_add(request, contest_id=None):
             work.user = request.user
             work.contest = contest
             work.save()
+            form.save_m2m()
             return HttpResponseRedirect(reverse('contest_done', args=(work.id,)))
     else:
         if contest.works_limit > 0:
@@ -123,6 +124,7 @@ def contest_add_ajax(request, contest_id=None):
             work.user = request.user
             work.contest = contest
             work.save()
+            form.save_m2m()
             return HttpResponse(json.dumps({'success':True, 'html': u'Работа добавлена', 'work': work.id}), content_type="application/json")
         else:
             return HttpResponse(json.dumps({'success':False, 'html': u'Не заполнены данные'}), content_type="application/json")

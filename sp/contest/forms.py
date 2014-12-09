@@ -23,7 +23,7 @@ class WorkForm(forms.ModelForm):
     
     class Meta:
         model = Work
-        fields = ['name', 'image', 'text', 'video_code', 'video_link', 'category']        
+        fields = ['name', 'image', 'text', 'video_code', 'video_link', 'category', 'tags']        
         
     def clean_image(self):
         image = self.cleaned_data.get('image', False)

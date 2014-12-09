@@ -16,6 +16,10 @@ class WorkCategoryAdmin(admin.ModelAdmin):
     model = WorkCategory
 
     
+class TagAdmin(admin.ModelAdmin):
+    model = Tag
+
+        
 class VoteInline(admin.TabularInline):
     model = Vote
     extra = 0
@@ -51,4 +55,5 @@ class WorkAdmin(admin.ModelAdmin):
 
 admin.site.register(Contest, ContestAdmin)
 admin.site.register(WorkCategory, WorkCategoryAdmin)
+admin.site.register(Tag, TagAdmin)
 admin.site.register(Work, WorkAdmin)

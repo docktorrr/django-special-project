@@ -37,7 +37,7 @@ class Contest(models.Model):
     def __unicode__(self):
         return self.title
 
-        
+
 class WorkCategory(models.Model):
     name = models.CharField(u'Название', max_length=250)
     description = models.TextField(u'Описание', blank=True, null=True)
@@ -52,12 +52,26 @@ class WorkCategory(models.Model):
     def __unicode__(self):
         return self.name
 
+
+class Tag(models.Model):
+    name = models.CharField(u'Название', max_length=250, db_index=True)
+    position = models.IntegerField(u'Порядок', default=500)
+    
+    class Meta:
+        ordering = ['position']
+        verbose_name = u"Тэг конкурсной работы"
+        verbose_name_plural = u"Тэги конкурсной работы"
+
+    def __unicode__(self):
+        return self.name
         
+                
 class Work(models.Model):
     contest = models.ForeignKey(Contest, related_name='works', verbose_name=u'Конкурс')
     user = models.ForeignKey(User, related_name='works', verbose_name=u'Пользователь')
     name = models.CharField(u'Название', max_length=256, blank=True, null=True)
     category = models.ForeignKey(WorkCategory, related_name='works', verbose_name=u'Категория', null=True, blank=True)
+    tags = models.ManyToManyField(Tag, verbose_name=u'Теги', blank=True)
     count_votes = models.IntegerField(u'Количество голосов', default=0)
     is_published = models.BooleanField(u'Опубликовано', default=False, db_index=True)
     date_added = models.DateTimeField(u'Дата добавления', auto_now_add=True)
