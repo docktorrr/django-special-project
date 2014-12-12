@@ -23,14 +23,26 @@ $(function() {
         var that = $(this);
         var offset = $('.work-item').length;
         var limit = that.attr('data-limit');
+        var data = {'limit': limit, 'offset': offset}
+            
         $.ajax({
             url: that.attr('data-url'),
-            data: {'limit': limit, 'offset': offset}
+            data: data
         }).done(function(data) {
-            $('.works-list').append(data.html);
+            $('.work-list').append(data.html);
             if(data.last)
                 that.hide();
         });        
+    });
+    
+    $('.work-load').on('click', function(){
+        var that = $(this);
+        $.ajax({
+            url: that.attr('data-url')
+        }).done(function(data) {
+            $('.work-container').html(data);
+            //TODO: Show Work Container
+        });                
     });
 });
 
