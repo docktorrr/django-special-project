@@ -1,5 +1,5 @@
 $(function() {
-    $('.vote-button').on('click', function(){
+    $(document).on('click', '.vote-button', function(){
         voteForPost($(this));
         return false;
     });

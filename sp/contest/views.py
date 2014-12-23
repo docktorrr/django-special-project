@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 from datetime import date
+from django.utils import timezone
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
@@ -169,7 +170,7 @@ def vote(request, id):
         
         work = get_object_or_404(Work, id=id)
         
-        if work.contest.stop_date and date.today() > work.contest.stop_date:
+        if work.contest.stop_date and timezone.now() > work.contest.stop_date:
             return HttpResponse(json.dumps({'success':False, 'html': u'Голосование закончилось', 'id': work.id}), content_type="application/json")
                 
         user = None
