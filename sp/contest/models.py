@@ -41,9 +41,9 @@ class Contest(models.Model):
 class WorkCategory(models.Model):
     name = models.CharField(u'Название', max_length=250)
     description = models.TextField(u'Описание', blank=True, null=True)
-    property1 = models.CharField(u'Дополнительное свойство 1', max_length=500)
-    property2 = models.CharField(u'Дополнительное свойство 2', max_length=500)
-    property3 = models.CharField(u'Дополнительное свойство 3', max_length=500)
+    property1 = models.CharField(u'Дополнительное свойство 1', max_length=500, blank=True, null=True)
+    property2 = models.CharField(u'Дополнительное свойство 2', max_length=500, blank=True, null=True)
+    property3 = models.CharField(u'Дополнительное свойство 3', max_length=500, blank=True, null=True)
 
     class Meta:
         verbose_name = u"Категория конкурсной работы"
