@@ -40,8 +40,8 @@ class RegistrationForm(forms.Form):
     email = forms.EmailField(label=u"E-mail", max_length=50)
     password = forms.CharField(label=u"Пароль", widget=forms.PasswordInput)
     password1 = forms.CharField(label=u"Подтверждение пароля", widget=forms.PasswordInput)
-    fullname = forms.CharField(label=u"Имя", max_length=150)
-    agree = forms.BooleanField(label=u"")
+    first_name = forms.CharField(label=u"Имя", max_length=150)
+    avatar = forms.ImageField(label=u"Aватар")
 
     def clean_password1(self):
         pass1 = self.cleaned_data.get('password', '')
@@ -58,11 +58,15 @@ class RegistrationForm(forms.Form):
             raise forms.ValidationError([u"Пользователем с таким адресом уже существует"])
         return email
 
-    def clean_agree(self):
-        agree = self.cleaned_data['agree']
-        if not agree:
-            raise forms.ValidationError([u"Вы должны согласиться с правилами"])
-        return agree
+    def clean_avatar(self):
+        avatar = self.cleaned_data.get('avatar', False)
+        if avatar:
+            if avatar._size > 1*1024*1024:
+                raise forms.ValidationError(u"Изображение слишком большое (>1mb)")
+        else:
+            if self.fields['avatar'].required:
+                raise forms.ValidationError("Couldn't read uploaded image")
+        return avatar
 
     def save(self):
         user = User.objects.create_user(
@@ -70,6 +74,7 @@ class RegistrationForm(forms.Form):
             email = self.cleaned_data['email'],
             password = self.cleaned_data['password'],
         )
+        user.first_name = self.cleaned_data['first_name']
         user.is_active = True
         user.save()
         return user

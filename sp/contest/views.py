@@ -72,6 +72,37 @@ def list(request, contest_id=None):
 
 
 @active_contest_exists
+@ensure_csrf_cookie
+def category(request, category_id):
+    """
+    This view is specific for this project
+    """
+    contest = get_object_or_404(Contest, id=opts.ACTIVE_CONTEST)
+    works1 = Work.objects.filter(contest=contest, category=1, is_published=True)
+    works2 = Work.objects.filter(contest=contest, category=2, is_published=True)
+    sort = None
+    if 'sort' in request.GET and request.GET['sort'] == 'votes':
+        sort = request.GET['sort']
+        works1 = works1.order_by('-count_votes')
+        works2 = works2.order_by('-count_votes')
+
+    share = None
+    if 'work' in request.GET:
+        share = get_object_or_404(Work, id=request.GET['work'])
+
+    return render_to_response('%s/%s' % (settings.TEMPLATE_THEME, 'contest/list.html'),
+                              {
+                              'contest': contest,
+                              'works1': works1,
+                              'works2': works2,
+                              'sort': sort,
+                              'active_category': int(category_id),
+                              'share': share
+                              },
+                              context_instance=RequestContext(request))
+
+
+@active_contest_exists
 def contest_start(request, contest_id=None):
     contest = get_object_or_404(Contest, id=(contest_id or opts.ACTIVE_CONTEST))
     if request.user.is_authenticated():
@@ -120,6 +151,10 @@ def contest_add(request, contest_id=None):
 def contest_add_ajax(request, contest_id=None):
     contest = get_object_or_404(Contest, id=(contest_id or opts.ACTIVE_CONTEST))
     if request.method=="POST" and request.is_ajax():
+        if contest.works_limit > 0:
+            works = Work.objects.filter(contest=contest, user=request.user)
+            if len(works) >= contest.works_limit:
+                return HttpResponse(json.dumps({'success':False, 'html': u'Вы превысили лимит работ'}), content_type="application/json")
         form = WorkForm(contest.name_input, contest.image_input, contest.text_input, contest.video_code_input, contest.video_link_input, contest.category_input, request.POST, request.FILES)
         if form.is_valid():
             work = form.save(commit=False)
@@ -129,12 +164,8 @@ def contest_add_ajax(request, contest_id=None):
             form.save_m2m()
             return HttpResponse(json.dumps({'success':True, 'html': u'Работа добавлена', 'work': work.id}), content_type="application/json")
         else:
-            return HttpResponse(json.dumps({'success':False, 'html': u'Не заполнены данные'}), content_type="application/json")
+            return HttpResponse(json.dumps({'success':False, 'html': u'Не правильно заполнены поля'}), content_type="application/json")
     else:
-        if contest.works_limit > 0:
-            works = Work.objects.filter(contest=contest, user=request.user)
-            if len(works) >= contest.works_limit:
-                return HttpResponse(json.dumps({'success':False, 'html': u'Вы уже добавили работу'}), content_type="application/json")
         return HttpResponse(json.dumps({'success':False, 'html': u'Не валидный запрос'}), content_type="application/json")
 
 @active_contest_exists
@@ -213,10 +244,12 @@ def more_works(request, category_id=None):
         works = Work.objects.filter(contest=contest, is_published=True)
         if category_id:
             works = works.filter(category=category_id)
+        if 'sort' in request.GET and request.GET['sort'] == 'votes':
+            works = works.order_by('-count_votes')
         works = works[offset:offset+limit]        
         context = RequestContext(request)
         if len(works) > 0:
-            rendered = render_to_string('%s/%s' % (settings.TEMPLATE_THEME, 'contest/photo_block.html'), {'contest': contest, 'works': works, 'STATIC_URL': context['STATIC_URL'], 'user': context['user']})
+            rendered = render_to_string('%s/%s' % (settings.TEMPLATE_THEME, 'contest/works_block.html'), {'contest': contest, 'works': works, 'STATIC_URL': context['STATIC_URL'], 'user': context['user']})
         else:
             rendered = ""
         last = False

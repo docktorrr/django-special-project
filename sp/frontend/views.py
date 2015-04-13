@@ -29,12 +29,12 @@ def login(request):
         if form.is_valid():
             login_user(request, form.get_user())
             if request.is_ajax():
-                return HttpResponse(json.dumps({'success':'True'}), content_type="application/json")
+                return HttpResponse(json.dumps({'success':True}), content_type="application/json")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER') or '/')
         else:
             if request.is_ajax():
                 html = form.errors.as_text()
-                return HttpResponse(json.dumps({'success':'False', 'html':html}), content_type="application/json")
+                return HttpResponse(json.dumps({'success': False, 'html':html}), content_type="application/json")
     else:
         form = AuthenticationForm()
     return render_to_response('login.html', {'form': form}, context_instance=RequestContext(request))
@@ -42,21 +42,21 @@ def login(request):
 
 def register(request):
     if request.method == "POST":
-        form = RegistrationForm(data=request.POST)
+        form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             profile = user.get_profile()
-            profile.fullname = form.cleaned_data["fullname"]
+            profile.avatar = form.cleaned_data["avatar"]
             profile.save()
             user = authenticate(email=form.cleaned_data["email"], password=form.cleaned_data["password"])
             login_user(request, user)
             if request.is_ajax():
-                return HttpResponse(json.dumps({'success':'True'}), content_type="application/json")
+                return HttpResponse(json.dumps({'success': True}), content_type="application/json")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER') or '/')
         else:
             if request.is_ajax():
                 html = form.errors.as_text()
-                return HttpResponse(json.dumps({'success':'False', 'html':html}), content_type="application/json")
+                return HttpResponse(json.dumps({'success': False, 'html':html}), content_type="application/json")
     else:
         form = RegistrationForm()
     return render_to_response('register.html', {'form': form}, context_instance=RequestContext(request))
