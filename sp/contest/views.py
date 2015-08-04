@@ -196,6 +196,18 @@ def contest_done(request, id):
                               },
                               context_instance=RequestContext(request))
 
+
+@login_required
+@transaction.commit_on_success
+def contest_work_delete(request, id):
+    work = get_object_or_404(Work, id=id)
+    if work.user.id == request.user.id:
+        work.delete()
+        return HttpResponse(json.dumps({'success':True}), content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({'success':False, 'error': u'Вы не можете удалить эту работу'}), content_type="application/json")
+                              
+                              
 def vote(request, id):
     if request.is_ajax() and request.method=='POST':
         
