@@ -217,3 +217,5 @@ pip-log.txt
 #Project local ignores
 settings_local.py
 public
+
+.idea
